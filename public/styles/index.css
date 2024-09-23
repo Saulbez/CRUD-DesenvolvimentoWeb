@@ -1,0 +1,81 @@
+:root {
+    --primary-color: #161D6F;
+    --secondary-color: #98DED9;
+    --text-color: #F6F6F6;
+    --assets: #C7FFD8;
+}
+
+body {
+    background-color: var(--secondary-color);
+    position: relative;
+}
+
+.flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#form-div {
+    background-color: #161d6f88;
+    margin: auto;
+    width: 25vw;
+    height: 35vh;
+    border-radius: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    z-index: 2;
+}
+
+label{
+    margin: 15px 0;
+    color: var(--text-color);
+    font-size: 18px;
+}
+
+input {
+    border-radius: 8px;
+    height: 20px;
+}
+
+input[type=submit] {
+    margin: auto;
+    margin-top: 30px;
+    width: 120px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: medium;
+}
+
+#form-div > p {
+    padding-left: 25px;
+    color: var(--text-color);
+}
+
+p#signup {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 800px){
+    #form-div {
+        width: 45vw;
+        height: 55vh;
+    }
+}
+
+@media screen and (min-width: 801px) and (max-width: 1500px){
+    #form-div {
+        width: 45vw;
+        height: 45vh;
+    }
+}
