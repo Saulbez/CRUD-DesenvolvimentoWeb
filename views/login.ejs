@@ -15,15 +15,30 @@
         </div>
         <div id="second-section">
             <div id="form-div">
-                <form action="/login" method="post">
-                    <label for="usuario">Usuário</label>
-                    <input type="text" name="usuario" id="usuario" placeholder="Usuário" required>
-                    <label for="senha">Senha</label>
-                    <input type="password" name="senha" id="senha" placeholder="Senha" required>
-                    <input type="submit" value="Entrar">
-                </form>
-                <p><a href="#">Esqueci minha senha</a></p>
-                <p id="signup"><a href="#">Criar uma conta</a></p>
+                <input type="checkbox" name="check" id="check" aria-hidden="true">
+
+                <div class="signup">
+                    <form action="/signup" method="post">
+                        <label for="check" aria-hidden="true">Cadastre-se</label>
+                        <input type="text" name="username" id="username" placeholder="Nome de usuário" required>
+                        <input type="email" name="email" id="email" placeholder="Email" required>
+                        <input type="password" name="password" id="password" placeholder="Senha" required>
+                        <button>Cadastre-se</button>
+                    </form>
+                </div>
+
+                <div class="login">
+                    <form action="/login" method="post">
+                        <label for="check" aria-hidden="true">Entrar</label>
+                        <input type="email" name="email" id="email" placeholder="Email" required>
+                        <input type="password" name="password" id="password" placeholder="Senha" required>
+                        <button>Entrar</button>
+                    </form>
+
+                    <% if (locals.mensagem) {%>
+                        <p><%= mensagem %></p>
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>
