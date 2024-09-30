@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/login.css">
 </head>
 <body>
+    <%- include('partials/header.ejs') %>
     <div class="flex-wrapper">
         <div id="first-section">
             <h1>Crie sua conta agora e retome o controle</h1>
@@ -20,6 +22,9 @@
                 <div class="signup">
                     <form action="/signup" method="post">
                         <label for="check" aria-hidden="true">Cadastre-se</label>
+                        <% if (locals.mensagemEmail) { %>
+                            <p><%= mensagemEmail %></p>
+                        <% } %>
                         <input type="text" name="username" id="username" placeholder="Nome de usuário" required>
                         <input type="email" name="email" id="email" placeholder="Email" required>
                         <input type="password" name="password" id="password" placeholder="Senha" required>
@@ -28,7 +33,7 @@
                 </div>
 
                 <div class="login">
-                    <form action="/login" method="post">
+                    <form action="/home" method="post">
                         <label for="check" aria-hidden="true">Entrar</label>
                         <input type="email" name="email" id="email" placeholder="Email" required>
                         <input type="password" name="password" id="password" placeholder="Senha" required>
@@ -42,5 +47,7 @@
             </div>
         </div>
     </div>
+
+    <script src="js/index.js"></script>
 </body>
 </html>
