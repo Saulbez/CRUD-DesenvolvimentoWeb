@@ -53,10 +53,14 @@ class Signup{
         $password = $data['password'];
         $session_id = $this->create_sessionid();
 
-        $query = "insert into users values (default, '$session_id', '$username', '$email', '$password')";
+        $query = ("insert into users (session_id, username, email, user_password) values (?, ?, ?, ?)");
+        
+        $types = "ssss";
+
+        $params = ["$session_id", "$username", "$email", "$password"];
         
         $DB = new Database();
-        $DB->save($query);
+        $DB->save($query, $types, ...$params);
     }
 
     private function create_sessionid() {

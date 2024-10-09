@@ -11,11 +11,120 @@
     color: var(--primary-color);
 }
 
+main {
+  text-align: center;
+}
+
+main > h2{
+  text-align: center;
+  font-size: 2rem;
+}
+
+div.create-project-form {
+    text-align: center;
+    padding: 60px 0;
+    background: url(../imagens/eden-constantino-OXmym9cuaEY-unsplash.jpg) fixed center / cover no-repeat rgba(0, 0, 0, 0.425);
+    background-blend-mode: darken;
+    width: 100%;
+    font-size: 2.5rem;
+    min-height: 20rem;
+}
+
+form {
+  text-align: left;
+  width: 30%;
+  padding: 20px 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 400ms;
+}
+
+.hidden-project-form {
+  display: none;
+}
+
+label {
+  width: 18rem;
+  margin: 1rem 0 1.5rem;
+  font-size: 1.5rem;
+  color: var(--assets);
+}
+
+div.create-project-form h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 10px 0;
+    padding: 10px 0;
+    color: var(--assets);
+}
+
+div.input-project-name {
+  border-radius: 20px;
+  margin: auto;
+  width: 30%;
+  background: rgba(22, 29, 111, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.2px);
+  border: 1px solid rgba(22, 29, 111, 0.62);
+  padding: 15px 0;
+}
+
+div.create-project-form input {
+    background-color: var(--text-color);
+    border: none;
+    height: 2.5rem;
+    transform: translateY(calc(-50% + 0.8rem));
+    border-radius: 10px;
+}
+
+div.create-project-form input {
+  width: 18rem;
+  margin-bottom: 1.25rem;
+}
+
+button:not(.material-symbols-outlined){
+  border-radius: 0.8rem;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  background-color: transparent;
+  padding: 0.5rem 1.5rem;
+}
+
+button.create-project, button.create-project-dropdown {
+  transition: 200ms;
+  color: var(--assets);
+  font-size: 1rem;
+}
+
+button.create-project:hover, button.create-project-dropdown:hover {
+  background-color: var(--assets);
+  color: var(--primary-color);
+}
+
+button.manage-projects {
+  padding: 0.5rem 1.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  background-color: transparent;
+  transition: 200ms;
+  color: var(--primary-color);
+}
+
+button.manage-projects:hover {
+  background-color: var(--primary-color);
+  color: var(--assets);
+}
+
 .global-carousel-wrapper{
     padding: 15px 0;
     margin: auto;
     width: 80%;
     position: relative;
+    transition: 400ms;
 }
 
 .carousel-wrapper {
@@ -93,6 +202,27 @@
 
 }
 
+.hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-100%);
+  transition: all 700ms;
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}
+
+.carousel-item:nth-child(2) {
+  transition-delay: 200ms;
+}
+
+.carousel-item:nth-child(2) {
+  transition-delay: 400ms;
+}
+
 .prev, .next {
     position: absolute;
     top: 50%;
@@ -105,25 +235,85 @@
     border: none;
   }
   
-  .prev {
-    left: -3rem;
-    transform: rotateY(180deg);
-  }
-  
-  .next {
-    right: -3rem;
-    transform: rotateY(360deg);
-  }
+.prev {
+  left: -3rem;
+  transform: rotateY(180deg);
+}
 
-  @media (min-width: 768px) and (max-width: 1199px) {
-    .carousel-item {
-      flex: 0 0 50%; /* define a largura de cada item como 50% do carousel-wrapper */
-    }
+.next {
+  right: -3rem;
+  transform: rotateY(360deg);
+}
+
+table, tr, th, td {
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: var(--assets);
+}
+
+button.edit-project, button.delete-project {
+  width: 6rem;
+}
+
+button.edit-project{
+  background-color: var(--primary-color);
+  color: var(--assets);
+  margin-bottom: 0.75rem;
+}
+
+button.edit-project:hover {
+  background-color: #161d6fd2;
+}
+
+button.delete-project {
+  background-color: darkred;
+  color: var(--assets);
+}
+
+button.delete-project:hover {
+  background-color: rgba(139, 0, 0, 0.699);
+}
+
+.hide-projects-carousel {
+  opacity: 0;
+  display: none;
+}
+
+.hide-projects-table{
+  opacity: 0;
+  display: none;
+  transition: 400ms;
+  animation-delay: 400ms;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .carousel-item {
+    flex: 0 0 48.5%; /* define a largura de cada item como 50% do carousel-wrapper */
   }
-  
-  /* Media query para telas de smartphone (480 x 640) */
-  @media (max-width: 767px) {
-    .carousel-item {
-      flex: 0 0 100%; /* define a largura de cada item como 100% do carousel-wrapper */
-    }
+  div.input-project-name {
+    width: 50%;
   }
+  div.input-project-name h2{
+    font-size: 2rem;
+  }
+}
+
+/* Media query para telas de smartphone (480 x 640) */
+@media (max-width: 767px) {
+  .carousel-item {
+    flex: 0 0 98.5%; /* define a largura de cada item como 100% do carousel-wrapper */
+  }
+  div.input-project-name{
+    width: 80%;
+  }
+  div.input-project-name h2{
+    font-size: 2rem;
+  }
+}

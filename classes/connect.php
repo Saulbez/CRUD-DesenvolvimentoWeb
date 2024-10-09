@@ -14,33 +14,47 @@ class Database
         return $connection;
     }
     
-    function read($query) {
+    function read($query, $types, ...$params) {
         $conn = $this->connect();
-        $result = mysqli_query($conn,$query);
-        
-        if (!$result) {
-            return false;
-        } else {
+        $stmt = $conn->prepare($query);
 
+        if (!$stmt) {
+            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        }
+
+        if ($types && $params) { 
+            $stmt->bind_param($types, ...$params); 
+        }
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
             $data = false;
-
             while($row = mysqli_fetch_assoc($result)) {
-                
                 $data[] = $row;
             }
 
             return $data;
+        } else {
+            die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
         }
     }
     
-    function save($query) {
+    function save($query, $types = "", ...$params) {
         $conn = $this->connect();
-        $result = mysqli_query($conn,$query);
+        $stmt = $conn->prepare($query);
 
-        if(!$result) {
-            return false;
+        if (!$stmt) {
+            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        }
+
+        if ($types && $params) { 
+            $stmt->bind_param($types, ...$params); 
+        }
+
+        if ($stmt->execute()) {
+            return $stmt; // Return the statement for result handling
         } else {
-            return true;
+            die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
         }
 
     }

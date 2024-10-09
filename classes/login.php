@@ -9,10 +9,14 @@
             $email = addslashes($data['email']);
             $password = addslashes($data['password']);
     
-            $query = "select * from users where email = '$email' limit 1";
+            $query = "select * from users where email = ? limit 1";
+
+            $types = "s";
+
+            $params = ["$email"];
 
             $DB = new Database();
-            $result = $DB->read($query);
+            $result = $DB->read($query, $types, ...$params);
 
             if ($result) {
 
@@ -41,10 +45,13 @@
 
         public function check_login($id) {
 
-            $query = "select session_id from users where session_id = '$id' limit 1";
+            $query = "select session_id from users where session_id = ? limit 1";
+
+            $types = "s";
+            $params = ["$id"];
 
             $DB = new Database();
-            $result = $DB->read($query);
+            $result = $DB->read($query, $types, ...$params);
 
             if($result) {
                 return true;
