@@ -2,6 +2,7 @@
 
 class User {
 
+    private $numeric = "";
     private $error= "";
 
     public function get_projects($id) {
@@ -30,10 +31,11 @@ class User {
             if ($key == 'project-name') {
                 if (is_numeric($value)) {
                     $this->error.= "O nome do projeto não pode ser um número.<br>";
+                    $this->numeric .= 1;
                 }
             }
         }
-        if ($image) {
+        if ($image && !$numeric) {
 
             $result = "";
 
@@ -66,8 +68,8 @@ class User {
                     $this->error.= "$em<br>";
                 }
             }
-        } else {
-            $result = this->create_project(null, $project, $id);
+        } elseif (!$numeric) {
+            $result = $this->create_project($image, $project, $id);
         }
 
         if ($result) {

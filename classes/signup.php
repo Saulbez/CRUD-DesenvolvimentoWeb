@@ -53,11 +53,13 @@ class Signup{
         $password = $data['password'];
         $session_id = $this->create_sessionid();
 
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
         $query = ("insert into users (session_id, username, email, user_password) values (?, ?, ?, ?)");
         
         $types = "ssss";
 
-        $params = ["$session_id", "$username", "$email", "$password"];
+        $params = ["$session_id", "$username", "$email", "$hashed_password"];
         
         $DB = new Database();
         $DB->save($query, $types, ...$params);

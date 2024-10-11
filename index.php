@@ -12,12 +12,13 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="styles/header.css" type="text/css">
+    <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/index.css" type="text/css">
 
 </head>
 <body>
     <?php
-        include 'header.php';
+        include 'partials/header.php';
     ?>
 
     <div class="hero">
@@ -67,6 +68,8 @@
             <a href="/CRUD-DesenvolvimentoWeb/projects.php">Começar</a>
         </div>
     </div>
+
+    <?php include('partials/footer.php') ?>
 
     <script src="js/index.js"></script>
 </body>

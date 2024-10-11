@@ -1,0 +1,51 @@
+:root {
+    --primary-color: #161D6F;
+    --secondary-color: #98DED9;
+    --text-color: #F6F6F6;
+    --assets: #C7FFD8;
+}
+
+footer {
+    padding: 20px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+div.footer-intro {
+    text-align: center;
+}
+
+div.footer-intro h2 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+div.footer-intro p {
+    font-size: 0.75rem;
+}
+
+div.team-contacts {
+    display: grid;
+    grid-template-columns: 15rem 8rem;
+    grid-template-rows: repeat(5, 4rem);
+}
+
+div.team-contacts h3:nth-child(2) {
+    text-align: center;
+}
+
+div.contacts {
+    justify-content: space-between;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+div.contacts a {
+    text-decoration: none;
+    color: var(--assets);
+}
+
+div.contacts img {
+    width: 1.25rem;
+}

@@ -67,12 +67,13 @@
     <title>Login</title>
 
     <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/login.css">
 </head>
 <body>
     
     <?php
-        include 'header.php';
+        include 'partials/header.php';
     ?>
     <div class="flex-wrapper">
         <div id="first-section">

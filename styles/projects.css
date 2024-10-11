@@ -8,11 +8,12 @@
 * {
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: var(--primary-color);
 }
 
 main {
   text-align: center;
+  color: var(--primary-color);
+  position: relative;
 }
 
 main > h2{
@@ -181,6 +182,10 @@ button.manage-projects:hover {
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.733);
 }
 
+.carousel-item a {
+  color: var(--primary-color);
+}
+
 .carousel-item button{
 
     border-radius: 50%;
@@ -281,6 +286,10 @@ button.delete-project:hover {
   background-color: rgba(139, 0, 0, 0.699);
 }
 
+table.projects-table {
+  margin-top: 30px;
+}
+
 .hide-projects-carousel {
   opacity: 0;
   display: none;
@@ -291,6 +300,10 @@ button.delete-project:hover {
   display: none;
   transition: 400ms;
   animation-delay: 400ms;
+}
+
+form.update-project-form {
+  display: none;
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {

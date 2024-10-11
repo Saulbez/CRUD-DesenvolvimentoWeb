@@ -1,5 +1,4 @@
 <?php
-
     session_start();
 
     include("classes/connect.php");
@@ -22,19 +21,27 @@
             if (isset($_POST['submit'])) {
 
                 if(isset($_FILES['project-image'])) {
+                    if($_FILES['project-image']['error'] != 4) {
+                        $project_image = $_FILES['project-image'];
 
-                    $project_image = $_FILES['project-image'];
+                        $project_check = new User();
+                        $check_project_input = $project_check->project_evaluate($project_image, $_POST, $id);
 
-                    $project_check = new User();
-                    $check_project_input = $project_check->project_evaluate($project_image, $_POST, $id);
-                } else {
-                    echo "Error: No project image or project details provided.";
-                    $project_image = [];
+                        header("Location: projects.php");
+                        
+                        return $check_project_input;
 
-                    $project_check = new User();
-                    $check_project_input = $project_check->project_evaluate($project_image, $_POST, $id);
+                    } else {
+                        $project_image = "";
+    
+                        $project_check = new User();
+                        $check_project_input = $project_check->project_evaluate($project_image, $_POST, $id);
 
-                    return $check_project_input;
+                        header("Location: projects.php");
+    
+                        return $check_project_input;
+                    }
+
                 }
 
             }
@@ -45,9 +52,9 @@
 
             $user = new User();
             $projects = $user->get_projects($id);
-            echo '<pre>';
-            print_r($projects);
-            echo '</pre>';
+            // echo '<pre>';
+            // print_r($projects);
+            // echo '</pre>';
 
             if (!$projects) {
                 $no_projects .= "Você ainda não criou nenhum projeto.";
@@ -78,6 +85,8 @@
 
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/projects.css">
+    <link rel="stylesheet" href="styles/footer.css">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
@@ -85,7 +94,7 @@
 <body>
     <header>
         <?php
-            include 'header.php';
+            include 'partials/header.php';
         ?>
     </header>
 
@@ -115,12 +124,13 @@
                             for ($i = 0; $i < sizeof($projects); $i++) {
                                 $project_image = $projects[$i]['project_image'];
                                 $project_name = $projects[$i]['project_name'];
-                                $project_description = $projects[$i]['project_description']; 
+                                $project_description = $projects[$i]['project_description'];
+                                $current_project = $projects[$i]['project_id'];
 
                                 $this_project = $i;
                             
                                 echo "<div class='carousel-item'>
-                                    <a href='#' class='card-link'>
+                                    <a href='project-tasks.php?project_id=$current_project' class='card-link'>
                                         <img src='uploads/$project_image' alt='Imagem 1'>
                                         <h2>$project_name</h2>
                                         <p>$project_description</p>
@@ -156,7 +166,7 @@
                         $project_date = $projects[$i]['data_criacao'];
 
                         echo "<tr>
-                            <td>$project_name</td>
+                            <td><strong>$project_name</strong></td>
                             <td>$project_description</td>
                             <td><p>Marcos</p> <p>Erika</p></td>
                             <td>
@@ -170,7 +180,22 @@
                 }
             ?>
         </table>
+
+        <div class="input-project-name">
+            <h2>Crie um novo projeto</h2>
+            <form class="project-form update-project-form" action="" method="post" enctype="multipart/form-data">
+                <label for="project-name">Nome do projeto</label>
+                <input type="text" name="project-name" id="project-name" placeholder="Digite o nome do projeto" required>
+                <label for="project-description">Descrição do projeto</label>
+                <input type="text" id="project-description" name="project-description" placeholder="Descrição do projeto">
+                <label for="project-image">Imagem do projeto</label>
+                <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg, image/jpg">
+                <button type="submit" name="submit" class="create-project">Criar</button>
+            </form>
+        </div>
     </main>
+
+    <?php include("partials/footer.php") ?>
 
     <script src="js/index.js"></script>
     

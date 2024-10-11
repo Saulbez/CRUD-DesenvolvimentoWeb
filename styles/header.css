@@ -15,10 +15,6 @@ body {
     margin: 0;
 }
 
-div#img-heading a {
-    color: var(--assets);
-}
-
 div.main {
     display: flex;
     justify-content: space-between;
@@ -29,15 +25,19 @@ div.main {
     margin: 0;
 }
 
+div#img-heading a {
+    color: var(--assets);
+}
+
 div#img-heading {
-    display: flex;
+    background-color: var(--assets);
+    border-radius: 10px;
     align-items: center;
+    padding: 2px;
 }
 
 img.logo {
-    width: 70px;
-    border-radius: 50%;
-    display: inline-block;
+    width: 5rem;
 }
 
 div h1 {
