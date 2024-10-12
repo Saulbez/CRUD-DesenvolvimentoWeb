@@ -19,6 +19,7 @@ main {
 main > h2{
   text-align: center;
   font-size: 2rem;
+  margin-top: 5rem;
 }
 
 div.create-project-form {
@@ -47,21 +48,21 @@ form {
 }
 
 label {
-  width: 18rem;
+  width: clamp(14rem, 35vw, 18rem);
   margin: 1rem 0 1.5rem;
   font-size: 1.5rem;
   color: var(--assets);
 }
 
-div.create-project-form h2 {
-    font-size: 2.5rem;
+div.create-project-form h2, div.edit-project-form h2 {
+    font-size: clamp(1rem, 3vh, 2.25rem);
     font-weight: bold;
     margin: 10px 0;
     padding: 10px 0;
     color: var(--assets);
 }
 
-div.input-project-name {
+div.input-project-name, div.edit-project-form {
   border-radius: 20px;
   margin: auto;
   width: 30%;
@@ -73,17 +74,14 @@ div.input-project-name {
   padding: 15px 0;
 }
 
-div.create-project-form input {
+div.create-project-form input, form.update-project-form input {
     background-color: var(--text-color);
     border: none;
     height: 2.5rem;
     transform: translateY(calc(-50% + 0.8rem));
     border-radius: 10px;
-}
-
-div.create-project-form input {
-  width: 18rem;
-  margin-bottom: 1.25rem;
+    width: clamp(14rem, 35vw, 18rem);
+    margin-bottom: 1.25rem;
 }
 
 button:not(.material-symbols-outlined){
@@ -92,27 +90,24 @@ button:not(.material-symbols-outlined){
   border: none;
   font-weight: bold;
   background-color: transparent;
-  padding: 0.5rem 1.5rem;
-}
-
-button.create-project, button.create-project-dropdown {
-  transition: 200ms;
-  color: var(--assets);
+  padding: 0.5rem 1.25rem;
+  width: 8rem;
   font-size: 1rem;
+  transition: 200ms;
 }
 
-button.create-project:hover, button.create-project-dropdown:hover {
+button.create-project, button.create-project-dropdown, button.edit-project-confirm {
+  color: var(--assets);
+}
+
+button.create-project:hover, button.create-project-dropdown:hover, button.edit-project-confirm:hover {
   background-color: var(--assets);
   color: var(--primary-color);
 }
 
 button.manage-projects {
-  padding: 0.5rem 1.5rem;
-  font-weight: bold;
-  font-size: 1rem;
-  background-color: transparent;
-  transition: 200ms;
   color: var(--primary-color);
+  width: 11rem;
 }
 
 button.manage-projects:hover {
@@ -122,8 +117,8 @@ button.manage-projects:hover {
 
 .global-carousel-wrapper{
     padding: 15px 0;
-    margin: auto;
-    width: 80%;
+    margin:0 auto 5rem;
+    width: 72%;
     position: relative;
     transition: 400ms;
 }
@@ -153,11 +148,11 @@ button.manage-projects:hover {
 }
 
 .carousel-item {
-    flex: 0 0 32.5%;
+    flex: 0 0 32.2%;
     scroll-snap-align: start;
     background-color: var(--text-color);
     margin: auto;
-    height: fit-content;
+    height: clamp(15rem, 45vh, 40rem);
     padding: 2rem;
     border-radius: 10px;
     cursor: pointer;
@@ -187,15 +182,15 @@ button.manage-projects:hover {
 }
 
 .carousel-item button{
-
+    padding: 0;
     border-radius: 50%;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: clamp(1.75rem, 5vw, 2.25rem);
+    height: clamp(1.75rem, 5vw, 2.25rem);
     background-color: transparent;
     border: 1px solid var(--primary-color);
     transform: rotate(-45deg);
     transition: 100ms;
-    text-align: left;
+    text-align: center;
     margin: 0;
 
 }
@@ -258,6 +253,10 @@ table, tr, th, td {
   margin-bottom: 2rem;
 }
 
+table {
+  margin-bottom: 5rem;
+}
+
 th {
   background-color: var(--primary-color);
   color: var(--assets);
@@ -267,23 +266,42 @@ button.edit-project, button.delete-project {
   width: 6rem;
 }
 
-button.edit-project{
+button.edit-project, button.edit-project-confirm{
   background-color: var(--primary-color);
   color: var(--assets);
   margin-bottom: 0.75rem;
 }
 
-button.edit-project:hover {
-  background-color: #161d6fd2;
+button.edit-project-confirm {
+  margin-bottom: 0;
 }
 
-button.delete-project {
+button.edit-project:hover, button.edit-project-confirm:hover {
+  background-color: #161d6fd2;
+  color: var(--assets);
+}
+
+button.delete-project a {
+  color: var(--assets);
+}
+
+button.delete-project, button.cancel {
   background-color: darkred;
   color: var(--assets);
 }
 
-button.delete-project:hover {
+button.delete-project:hover, button.cancel:hover {
   background-color: rgba(139, 0, 0, 0.699);
+}
+
+button.cancel, button.edit-project-confirm {
+  width: 8rem;
+  font-size: 0.9rem;
+  padding: 0.3rem 1rem;
+}
+
+button.cancel {
+  margin-right: 10px;
 }
 
 table.projects-table {
@@ -302,31 +320,82 @@ table.projects-table {
   animation-delay: 400ms;
 }
 
-form.update-project-form {
-  display: none;
+div.edit-project-form {
+  color: var(--primary-color);
+  position: absolute;
+  top: 50%;
+  left: 52.5%;
+  transform: translateX(-55%);
+  background-color: var(--text-color);
+}
+
+div.edit-project-form form {
+  width: 80%;
+}
+
+form.update-project-form input {
+  background-color: #FFF;
+  border: 1px solid var(--primary-color);
+  height: 2rem;
+}
+
+div.edit-project-form h2 {
+  color: var(--primary-color);
+}
+
+div.edit-project-form label {
+  color: var(--primary-color);
+}
+
+div.edit-cancel {
+  margin: auto;
+  margin-top: 2rem;
+  width: 75%;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
   .carousel-item {
+    height: 40vh;
     flex: 0 0 48.5%; /* define a largura de cada item como 50% do carousel-wrapper */
   }
-  div.input-project-name {
+  div.input-project-name, div.edit-project-form {
     width: 50%;
   }
-  div.input-project-name h2{
-    font-size: 2rem;
+
+}
+
+@media screen and  (max-width: 820px) {
+
+  div.create-project-form input {
+    height: 2rem;
   }
+
+  form label {
+    font-size: 1.25rem;
+  }
+  
 }
 
 /* Media query para telas de smartphone (480 x 640) */
 @media (max-width: 767px) {
   .carousel-item {
-    flex: 0 0 98.5%; /* define a largura de cada item como 100% do carousel-wrapper */
+    flex: 0 0 98.4%; /* define a largura de cada item como 100% do carousel-wrapper */
+    height: clamp(15rem, 55vh, 30rem);
   }
-  div.input-project-name{
-    width: 80%;
+  div.input-project-name, div.edit-project-form{
+    width: 70%;
   }
-  div.input-project-name h2{
-    font-size: 2rem;
+
+  table, tr, th, td {
+    padding: 2px 2px;
+  }
+}
+
+@media (max-width: 550px) {
+  .carousel-item {
+    height: 22rem;
   }
 }

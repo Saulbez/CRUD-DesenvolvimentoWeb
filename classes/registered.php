@@ -82,46 +82,78 @@ class User {
 
 
     private function create_project($image_name, $project_data, $id) {
-
-        if ($image_name) {
-            $session_id = $id;
-
-            $project_name = $project_data['project-name'];
-            $project_description = $project_data['project-description'];
-            $project_image = $image_name;
-
-            $DB = new Database();
-
-            $query = "insert into projects (session_id, project_name, project_description, project_image) values (?, ?, ?, ?)";
-
-            $types = "ssss";
-            $params = ["$session_id", "$project_name", "$project_description", "$project_image"];
-
-            if ($DB->save($query, $types, ...$params)) {
-                return $this->error; // Project created successfully
-            } else {
-                $this->error .= "An error occurred while saving the project.";
+        $DB = new Database();
+        $session_id = $id;
+        $update_id = isset($project_data['update_id']) ? $project_data['update_id'] : null;
+    
+        if ($update_id) {
+            // This is an update operation
+            $query = "update projects set ";
+            $types = "";
+            $params = [];
+            $updates = [];
+    
+            if (isset($project_data['project-name']) && $project_data['project-name'] !== '') {
+                $updates[] = "project_name = ?";
+                $types .= "s";
+                $params[] = $project_data['project-name'];
             }
+    
+            if (isset($project_data['project-description']) && $project_data['project-description'] !== '') {
+                $updates[] = "project_description = ?";
+                $types .= "s";
+                $params[] = $project_data['project-description'];
+            }
+    
+            if ($image_name) {
+                $updates[] = "project_image = ?";
+                $types .= "s";
+                $params[] = $image_name;
+            }
+    
+            if (empty($updates)) {
+                $this->error .= "No fields to update.";
+                return false;
+            }
+    
+            $query .= implode(", ", $updates);
+            $query .= " where project_id = ? AND session_id = ?";
+            $types .= "is";
+            $params[] = $update_id;
+            $params[] = $session_id;
+    
         } else {
-            $session_id = $id;
-
-            $project_name = $project_data['project-name'];
-            $project_description = $project_data['project-description'];
-            $project_image = "default.png";
-
-            $DB = new Database();
-
+            // This is an insert operation
             $query = "insert into projects (session_id, project_name, project_description, project_image) values (?, ?, ?, ?)";
-
             $types = "ssss";
-            $params = ["$session_id", "$project_name", "$project_description", "$project_image"];
-
-            if ($DB->save($query, $types, ...$params)) {
-                return $this->error; // Project created successfully
-            } else {
-                $this->error .= "An error occurred while saving the project.";
-            }
+            $params = [
+                $session_id,
+                $project_data['project-name'] ?? '',
+                $project_data['project-description'] ?? '',
+                $image_name ?: 'default.png'
+            ];
         }
-        return $this->error;
+    
+        if ($DB->save($query, $types, ...$params)) {
+            return true; // Project created/updated successfully
+        } else {
+            $this->error .= "An error occurred while saving the project.";
+            return false;
+        }
     }
+
+    // private function deleteProject($project_id, $session_id) {
+
+    //     $query = "delete from projects where project_id = ? AND session_id = ?";
+    //     $types = "is";
+    //     $params = [$project_id, $session_id];
+
+    //     if($DB->save($query, $types, ...$params)) {
+    //         return true;
+    //     } else {
+    //         $this->error .= "An error occurred while deleting the project.";
+    //         return false;
+    //     }
+    // }
+
 }

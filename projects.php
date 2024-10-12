@@ -160,37 +160,42 @@
             <?php
                 if (!$no_projects) {
                     for ($i = 0; $i < sizeof($projects); $i++) {
-
                         $project_name = $projects[$i]['project_name'];
-                        $project_description = $projects[$i]['project_description']; 
+                        $project_description = $projects[$i]['project_description'];
                         $project_date = $projects[$i]['data_criacao'];
-
-                        echo "<tr>
-                            <td><strong>$project_name</strong></td>
-                            <td>$project_description</td>
+                        $project_id = $projects[$i]['project_id'];
+            ?>
+                        <tr>
+                            <td><strong><?php echo $project_name; ?></strong></td>
+                            <td><?php echo $project_description; ?></td>
                             <td><p>Marcos</p> <p>Erika</p></td>
                             <td>
-                                <button class='edit-project'>Editar</button>
+                                <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
                                 <br>
-                                <button class='delete-project'>Excluir</button>
+                                <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
                             </td>
-                            <td><data value='$project_date'>$project_date</data></td>
-                        </tr>";
+                            <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
+                        </tr>
+            <?php
                     }
                 }
             ?>
         </table>
 
-        <div class="input-project-name">
-            <h2>Crie um novo projeto</h2>
+        <div class="edit-project-form hidden-project-form">
+            <h2>Editar projeto</h2>
             <form class="project-form update-project-form" action="" method="post" enctype="multipart/form-data">
                 <label for="project-name">Nome do projeto</label>
-                <input type="text" name="project-name" id="project-name" placeholder="Digite o nome do projeto" required>
+                <input type="text" name="project-name" id="project-name" placeholder="Digite o nome do projeto">
                 <label for="project-description">Descrição do projeto</label>
                 <input type="text" id="project-description" name="project-description" placeholder="Descrição do projeto">
                 <label for="project-image">Imagem do projeto</label>
                 <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg, image/jpg">
-                <button type="submit" name="submit" class="create-project">Criar</button>
+                <input type="hidden" name="update_id" value="">
+                <div class="edit-cancel">
+                    <button type="button" class="cancel">Cancelar</button>
+                    <button type='submit' name='submit' class='edit-project-confirm'>Editar</button>
+                </div>
             </form>
         </div>
     </main>

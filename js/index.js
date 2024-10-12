@@ -49,8 +49,6 @@ if (hideCarouselButton) {
 
 }
 
-let contador = 0;
-
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         console.log(entry)
@@ -63,5 +61,29 @@ const observer = new IntersectionObserver((entries) => {
 const hiddenElements = document.querySelectorAll(".hidden");
 hiddenElements.forEach((el) => observer.observe(el));
 
-const editProject = document.querySelector(".edit-project");
-const editProjectForm = document.querySelector(".update-project-form");
+//Mostrar e esconder o formulário para atualizar projeto
+// e adicionar o id do projeto a um input escondido para saber que projeto será editado
+
+// Show/hide the form used to update projects
+// and add the project id to a hidden input for handling each project update
+
+const editProjectForm = document.querySelector(".edit-project-form");
+
+document.addEventListener("DOMContentLoaded", function() {
+    let editButtons = document.querySelectorAll('.edit-project');
+    let projectIdUpdate = document.querySelector('input[name="update_id"]');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            editProjectForm.classList.remove("hidden-project-form");
+            projectIdUpdate.value = this.getAttribute('data-project-id');
+        });
+    });
+
+});
+
+const cancelButton = document.querySelector(".cancel");
+
+cancelButton.addEventListener("click", () => {
+    editProjectForm.classList.add("hidden-project-form");
+});
