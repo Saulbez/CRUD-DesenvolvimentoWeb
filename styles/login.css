@@ -93,12 +93,16 @@ label {
     transition: .5s ease-in-out;
 }
 
+label.signup-label {
+    margin: 38px 60px 22px;
+}
+
 input {
     width: 60%;
     background-color: #e0dede;
     justify-content: center;
     display: flex;
-    margin: 20px auto;
+    margin: 12px auto 26px;
     padding: 10px;
     border: none;
     outline: none;

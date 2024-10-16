@@ -142,18 +142,4 @@ class User {
         }
     }
 
-    // private function deleteProject($project_id, $session_id) {
-
-    //     $query = "delete from projects where project_id = ? AND session_id = ?";
-    //     $types = "is";
-    //     $params = [$project_id, $session_id];
-
-    //     if($DB->save($query, $types, ...$params)) {
-    //         return true;
-    //     } else {
-    //         $this->error .= "An error occurred while deleting the project.";
-    //         return false;
-    //     }
-    // }
-
 }

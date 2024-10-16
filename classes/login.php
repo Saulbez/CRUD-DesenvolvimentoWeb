@@ -8,9 +8,6 @@
 
             $email = addslashes($data['email']);
             $password = $data['password'];
-            $test = password_hash($password, PASSWORD_BCRYPT);
-            print_r($test);
-            echo '<br>';
     
             $query = "select * from users where email = ? limit 1";
 
@@ -25,12 +22,12 @@
 
                 $row = $result[0];
                 $hashed_password = $row['user_password'];
-                print_r($hashed_password);
 
                 if (password_verify($password, $hashed_password)) {
 
                     //create session data
                     $_SESSION['collab_sessionid'] = $row['session_id'];
+                    $this->error = true;
 
                 } else {
 

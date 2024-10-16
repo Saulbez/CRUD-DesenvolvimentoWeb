@@ -10,52 +10,9 @@
     $email = "";
     $password = "";
 
+    $result_signup = "";
+    $result_login = "";
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-        if ($_POST['action'] == 'signup') {
-            $signup = new signup();
-            $result = $signup->evaluate($_POST);
-
-            if ($result != "") {
-                echo '<div style="text-align: center; background-color: #161D6F; color: #F6F6F6; font-size: 1rem; margin: 0; padding: 20px;">';
-                echo $result;
-                echo '</div>';
-            } else {
-
-                header("Location: login.php");
-                die;
-
-            }
-
-            $username = $_POST['username'];
-            $email = $_POST['email'];
-
-        } elseif ($_POST['action'] == 'login') {
-
-            $login = new Login();
-            $result = $login->evaluate($_POST);
-
-            if ($result != "") {
-
-                echo '<div style="text-align: center; background-color: #161D6F; color: #F6F6F6; font-size: 1rem; margin: 0; padding: 20px;">';
-                echo $result;
-                echo '</div>';
-
-            } else {
-
-                header("Location: projects.php");
-                die;
-
-            }
-
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
-
-        }
-
-    }
 
 ?>
 
@@ -86,10 +43,29 @@
 
                 <div class="signup">
                     <form method="post">
-                        <label for="check" aria-hidden="true">Cadastre-se</label>
-                        <input value="<?php echo $username?>" type="text" name="username" id="username" placeholder="Nome de usuário" required>
-                        <input value="<?php echo $email ?>" type="email" name="email" id="email" placeholder="Email" required>
-                        <input type="password" name="password" id="password" placeholder="Senha" required>
+                        <label for="check" aria-hidden="true" class="signup-label">Cadastre-se</label>
+                        <label for="username-signup" class="label-inputs">Nome de usuário</label>
+                        <input value="<?php echo $username?>" type="text" name="username" id="username-signup" placeholder="Nome de usuário" required>
+                        <label for="email-signup" class="label-inputs">Email</label>
+                        <input value="<?php echo $email ?>" type="email" name="email" id="email-signup" placeholder="Email" required>
+                        <label for="password-signup" class="label-inputs">Senha</label>
+                        <input type="password" name="password" id="password-signup" placeholder="Senha" required>
+
+                        <?php
+                            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'signup') {
+                                $signup = new Signup();
+                                $result_signup = $signup->evaluate($_POST);
+                                if ($result_signup === true) {
+                                    echo "<p style='color: darkgreen;'>Cadastro realizado com sucesso!</p>";
+                                    echo "<script>setTimeout(function(){ window.location.href='login.php'; }, 2000);</script>";
+                                } else {
+                                    echo "<p>$result_signup</p>";
+                                }
+
+                                $username = $_POST['username'];
+                                $email = $_POST['email'];
+                            }
+                        ?>
 
                         <input type="hidden" name="action" value="signup">
 
@@ -100,9 +76,27 @@
                 <div class="login">
                     <form method="post">
                         <label for="check" aria-hidden="true">Entrar</label>
-                        <input value="<?php echo $email ?>" type="email" name="email" id="email" placeholder="Email" required>
-                        <input value="<?php echo $password ?>" type="password" name="password" id="password" placeholder="Senha" required>
+                        <label for="email-login" class="label-inputs">Email</label>
+                        <input value="<?php echo $email ?>" type="email" name="email" id="email-login" placeholder="Email" required>
+                        <label for="password-login" class="label-inputs">Senha</label>
+                        <input value="<?php echo $password ?>" type="password" name="password" id="password-login" placeholder="Senha" required>
                         
+                        <?php
+                            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'login') {
+                                $login = new Login();
+                                $result_login = $login->evaluate($_POST);
+                                if ($result_login === true) {
+                                    header("Location: projects.php");
+                                    die;
+                                } else {
+                                    echo "<p>$result_login</p>";
+                                }
+
+                                $email = $_POST['email'];
+                                $password = $_POST['password'];
+                            }
+                        ?>
+
                         <input type="hidden" name="action" value="login">
 
                         <input name="login" type="submit" value="Entrar"></input>

@@ -8,17 +8,17 @@ class Signup{
         foreach ($data as $key => $value) {
 
             if (empty($value)) {
-                $this->error .= "Por favor preencha o campo $key.<br>";
+                $this->error = "Por favor preencha o campo $key.<br>";
             }
 
             if ($key == "username") {
                 if (is_numeric($value)) {
 
-                $this->error .= "O nome de usuário não pode ser um número.";
+                $this->error = "O nome de usuário não pode ser um número.";
                 }
 
                 if (strstr($value, " ")) {
-                    $this->error .= "O nome de usuário não pode conter espaços.";
+                    $this->error = "O nome de usuário não pode conter espaços.";
                 }
 
             }
@@ -26,14 +26,14 @@ class Signup{
             if ($key == "email") {
                 if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/", $value)) {
 
-                $this->error .= "Por favor, digite um endereço de email válido!<br>";
+                $this->error = "Por favor, digite um endereço de email válido!<br>";
                 }
             }
 
             if ($key == "password") {
 
                 if (strlen($value) < 6) {
-                    $this->error .= "A senha deve ser no mínimo 6 dígitos.";
+                    $this->error = "A senha deve ser no mínimo 6 dígitos.";
                 }
             }
 
@@ -41,6 +41,7 @@ class Signup{
 
         if (!$this->error) {
             $this->create_user($data);
+            return true;
         } else {
             return $this->error;
         }

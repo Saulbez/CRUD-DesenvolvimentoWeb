@@ -54,7 +54,7 @@ label {
   color: var(--assets);
 }
 
-div.create-project-form h2, div.edit-project-form h2 {
+div.projects-forms h2 {
     font-size: clamp(1rem, 3vh, 2.25rem);
     font-weight: bold;
     margin: 10px 0;
@@ -62,7 +62,7 @@ div.create-project-form h2, div.edit-project-form h2 {
     color: var(--assets);
 }
 
-div.input-project-name, div.edit-project-form {
+div.projects-forms {
   border-radius: 20px;
   margin: auto;
   width: 30%;
@@ -72,6 +72,11 @@ div.input-project-name, div.edit-project-form {
   backdrop-filter: blur(4.2px);
   border: 1px solid rgba(22, 29, 111, 0.62);
   padding: 15px 0;
+}
+
+div#add_collaborators {
+  margin-bottom: 5rem;
+  background-color: var(--primary-color);
 }
 
 div.create-project-form input, form.update-project-form input {
@@ -131,6 +136,7 @@ button.manage-projects:hover {
     overflow-x: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+    gap: 1rem;
 }
 
 .carousel-wrapper::-webkit-scrollbar {
@@ -148,7 +154,7 @@ button.manage-projects:hover {
 }
 
 .carousel-item {
-    flex: 0 0 32.2%;
+    flex: 0 0 calc((100% - 2.1rem) / 3);
     scroll-snap-align: start;
     background-color: var(--text-color);
     margin: auto;
@@ -161,10 +167,6 @@ button.manage-projects:hover {
     border: 2px solid transparent;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.267);
 }
-
-.carousel-item:not(:first-child) {
-    margin-left: 1rem;
-  }
 
 .carousel-item:hover {
     border: 2px solid var(--primary-color);
@@ -255,6 +257,11 @@ table, tr, th, td {
 
 table {
   margin-bottom: 5rem;
+  width: 70%;
+}
+
+table.table-wrapper {
+  position: relative;
 }
 
 th {
@@ -324,9 +331,10 @@ div.edit-project-form {
   color: var(--primary-color);
   position: absolute;
   top: 50%;
-  left: 52.5%;
-  transform: translateX(-55%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: var(--text-color);
+  z-index: 5;
 }
 
 div.edit-project-form form {
@@ -345,6 +353,7 @@ div.edit-project-form h2 {
 
 div.edit-project-form label {
   color: var(--primary-color);
+  font-weight: 600;
 }
 
 div.edit-cancel {
@@ -356,10 +365,14 @@ div.edit-cancel {
   display: flex;
 }
 
+div#add_collaborators {
+  display: none;
+}
+
 @media (min-width: 768px) and (max-width: 1199px) {
   .carousel-item {
     height: 40vh;
-    flex: 0 0 48.5%; /* define a largura de cada item como 50% do carousel-wrapper */
+    flex: 0 0 calc(50% - .6rem); /* define a largura de cada item como 50% do carousel-wrapper */
   }
   div.input-project-name, div.edit-project-form {
     width: 50%;
@@ -382,7 +395,7 @@ div.edit-cancel {
 /* Media query para telas de smartphone (480 x 640) */
 @media (max-width: 767px) {
   .carousel-item {
-    flex: 0 0 98.4%; /* define a largura de cada item como 100% do carousel-wrapper */
+    flex: 0 0 calc(100% - 1rem); /* define a largura de cada item como 100% do carousel-wrapper */
     height: clamp(15rem, 55vh, 30rem);
   }
   div.input-project-name, div.edit-project-form{

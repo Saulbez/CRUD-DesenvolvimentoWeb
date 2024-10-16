@@ -100,7 +100,7 @@
 
     <main>
         <div class="create-project-form">
-            <div class="input-project-name">
+            <div class="input-project-name projects-forms">
                 <h2>Crie um novo projeto</h2>
                 <form class="hidden-project-form project-form" action="" method="post" enctype="multipart/form-data">
                     <label for="project-name">Nome do projeto</label>
@@ -145,59 +145,83 @@
                         </div>";
 
             } else {
-                echo '<p>'.$no_projects.'</p>';
+                echo '<p style="margin-bottom: 7rem;">'.$no_projects.'</p>';
             }
 
         ?>
-        <table class="hide-projects-table projects-table hidden">
-            <tr>
-                <th>Projeto</th>
-                <th>Descrição</th>
-                <th>Participantes</th>
-                <th>Ações</th>
-                <th>Data de criação</th>
-            </tr>
-            <?php
-                if (!$no_projects) {
-                    for ($i = 0; $i < sizeof($projects); $i++) {
-                        $project_name = $projects[$i]['project_name'];
-                        $project_description = $projects[$i]['project_description'];
-                        $project_date = $projects[$i]['data_criacao'];
-                        $project_id = $projects[$i]['project_id'];
-            ?>
-                        <tr>
-                            <td><strong><?php echo $project_name; ?></strong></td>
-                            <td><?php echo $project_description; ?></td>
-                            <td><p>Marcos</p> <p>Erika</p></td>
-                            <td>
-                                <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
-                                <br>
-                                <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
-                            </td>
-                            <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
-                        </tr>
-            <?php
+        <div class="table-wrapper">
+            <table class="hide-projects-table projects-table hidden">
+                <tr>
+                    <th>Projeto</th>
+                    <th>Descrição</th>
+                    <th>Participantes</th>
+                    <th>Ações</th>
+                    <th>Data de criação</th>
+                </tr>
+                <?php
+                    if (!$no_projects) {
+                        for ($i = 0; $i < sizeof($projects); $i++) {
+                            $project_name = $projects[$i]['project_name'];
+                            $project_description = $projects[$i]['project_description'];
+                            $project_date = $projects[$i]['data_criacao'];
+                            $project_id = $projects[$i]['project_id'];
+                ?>
+                            <tr>
+                                <td><strong><?php echo $project_name; ?></strong></td>
+                                <td><?php echo $project_description; ?></td>
+                                <td><p>Marcos</p> <p>Erika</p></td>
+                                <td>
+                                    <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
+                                    <br>
+                                    <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                </td>
+                                <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
+                            </tr>
+                <?php
+                        }
                     }
-                }
-            ?>
-        </table>
-
-        <div class="edit-project-form hidden-project-form">
-            <h2>Editar projeto</h2>
-            <form class="project-form update-project-form" action="" method="post" enctype="multipart/form-data">
-                <label for="project-name">Nome do projeto</label>
-                <input type="text" name="project-name" id="project-name" placeholder="Digite o nome do projeto">
-                <label for="project-description">Descrição do projeto</label>
-                <input type="text" id="project-description" name="project-description" placeholder="Descrição do projeto">
-                <label for="project-image">Imagem do projeto</label>
-                <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg, image/jpg">
-                <input type="hidden" name="update_id" value="">
-                <div class="edit-cancel">
-                    <button type="button" class="cancel">Cancelar</button>
-                    <button type='submit' name='submit' class='edit-project-confirm'>Editar</button>
-                </div>
-            </form>
+                ?>
+            </table>
+            <div class="edit-project-form hidden-project-form projects-forms">
+                <h2>Editar projeto</h2>
+                <form class="project-form update-project-form" action="" method="post" enctype="multipart/form-data">
+                    <label for="project-name">Nome do projeto</label>
+                    <input type="text" name="project-name" id="project-name" placeholder="Digite o nome do projeto">
+                    <label for="project-description">Descrição do projeto</label>
+                    <input type="text" id="project-description" name="project-description" placeholder="Descrição do projeto">
+                    <label for="project-image">Imagem do projeto</label>
+                    <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg, image/jpg">
+                    <input type="hidden" name="update_id" value="">
+                    <div class="edit-cancel">
+                        <button type="button" class="cancel">Cancelar</button>
+                        <button type='submit' name='submit' class='edit-project-confirm'>Editar</button>
+                    </div>
+                </form>
+            </div>
         </div>
+
+        <!-- <div id="add_collaborators" class="projects-forms">
+            <h2>Adicionar colaboradores</h2>
+            <form action="" method="post">
+                <label for="projeto_colaborador">Projeto</label>
+                <select name="projeto_colaborador" id="projeto_colaborador">
+                    <?php //for($i = 0; $i < sizeof($projects); $i++) {
+                        //$project_name = $projects[$i]['project_name'];
+                        //echo "<option value='$project_name'>$project_name</option>";
+                    //}?>
+                </select>
+                
+                <label for="permission_type">Permissão</label>
+                <select name="permission_type" id="permission_type">
+                    <option value="edit">Edição</option>
+                    <option value="admin">Administrador</option>
+                </select>
+
+                <label for="colaborador">Colaborador</label>
+                <input type="text" name="colaborador" id="colaborador" placeholder="Colaborador" required>
+                <button type="submit" name="add_participant">Adicionar</button>
+            </form>
+        </div> -->
     </main>
 
     <?php include("partials/footer.php") ?>
