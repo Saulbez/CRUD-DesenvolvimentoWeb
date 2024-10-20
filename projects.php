@@ -4,6 +4,7 @@
     include("classes/connect.php");
     include("classes/login.php");
     include("classes/registered.php");
+    include("classes/collaborator.php");
 
     //check if user is logged in
     if (isset($_SESSION['collab_sessionid'])) {
@@ -40,6 +41,17 @@
                         header("Location: projects.php");
     
                         return $check_project_input;
+                    }
+
+                } else if (isset($_POST['colaborador'])) {
+                    $project_to_collaborate = $_POST['projeto_colaborador'];
+                    $collaborator = $_POST['colaborador'];
+                    $permission_type = $_POST['permissao'];
+
+                    $collab_check = new Collab();
+
+                    if ($collab_check->project_exists($_POST, $id)) {
+                        $collaborator_added = "Adicionado com sucesso!";
                     }
 
                 }
@@ -114,41 +126,55 @@
                 <button class="create-project-dropdown">Criar</button>
             </div>
         </div>
-        <h2 class="hidden">Meus projetos</h2>
-        <?php
-        $this_project = false;
-            if (!$no_projects) {
-                    echo "<button class='manage-projects hidden'>Editar projetos</button>
-                        <div class='global-carousel-wrapper hidden'>
-                            <div class='carousel-wrapper c-carousel c-carousel--simple'>";
-                            for ($i = 0; $i < sizeof($projects); $i++) {
-                                $project_image = $projects[$i]['project_image'];
-                                $project_name = $projects[$i]['project_name'];
-                                $project_description = $projects[$i]['project_description'];
-                                $current_project = $projects[$i]['project_id'];
+        <h2>Meus projetos</h2>
+        <div class="projects-wrapper hidden">
+            <?php
+            $this_project = false;
+                if (!$no_projects) {
+                        echo "<button class='manage-projects'>Editar projetos</button>
+                            <div class='global-carousel-wrapper'>
+                                <div class='carousel-wrapper c-carousel c-carousel--simple'>";
+                                for ($i = 0; $i < sizeof($projects); $i++) {
+                                    $project_image = $projects[$i]['project_image'];
+                                    $project_name = $projects[$i]['project_name'];
+                                    $project_description = $projects[$i]['project_description'];
+                                    $current_project = $projects[$i]['project_id'];
+                                    $project_session = $projects[$i]['session_id'];
 
-                                $this_project = $i;
-                            
-                                echo "<div class='carousel-item'>
-                                    <a href='project-tasks.php?project_id=$current_project' class='card-link'>
-                                        <img src='uploads/$project_image' alt='Imagem 1'>
-                                        <h2>$project_name</h2>
-                                        <p>$project_description</p>
-                                        <button class='material-symbols-outlined'>arrow_forward</button>
-                                    </a>
-                                </div>";
-                            }
-                                echo"<button class='material-symbols-outlined prev'> arrow_forward_ios </button>
-                                <button class='material-symbols-outlined next'> arrow_forward_ios </button>
-                                <div class='js-carousel--simple-dots'></div>
-                            </div>
-                        </div>";
+                                    if ($project_session  == $_SESSION['collab_sessionid']) {
+                                        echo "<div class='carousel-item'>
+                                            <a href='project-tasks.php?project_id=$current_project' class='card-link'>
+                                                <img src='uploads/$project_image' alt='Imagem 1'>
+                                                <h2>$project_name</h2>
+                                                <p>$project_description</p>
+                                                <button class='material-symbols-outlined'>arrow_forward</button>
+                                            </a>
+                                        </div>";
+                                    } else {
+                                        echo "<div class='carousel-item' style='position: relative;'>
+                                            <a href='project-tasks.php?project_id=$current_project' class='card-link'>
+                                                <img src='uploads/$project_image' alt='Imagem 1'>
+                                                <h2>$project_name</h2>
+                                                <p>$project_description</p>
+                                                <button class='material-symbols-outlined'>arrow_forward</button>
+                                            </a>
+                                            <div style='padding: 0 5px; background-color: #C7FFD8; position: absolute; top: 10px; left: 5px; border-radius: 10px; font-weight: bold; font-size: 1rem;'>
+                                                <p> Colaborador </p>
+                                            </div>
+                                        </div>";
+                                    }
 
-            } else {
-                echo '<p style="margin-bottom: 7rem;">'.$no_projects.'</p>';
-            }
-
-        ?>
+                                }
+                                    echo"<button class='material-symbols-outlined prev'> arrow_forward_ios </button>
+                                    <button class='material-symbols-outlined next'> arrow_forward_ios </button>
+                                    <div class='js-carousel--simple-dots'></div>
+                                </div>
+                            </div>";
+                } else {
+                    echo '<p style="margin-bottom: 7rem;">'.$no_projects.'</p>';
+                }
+            ?>
+        </div>
         <div class="table-wrapper">
             <table class="hide-projects-table projects-table hidden">
                 <tr>
@@ -165,19 +191,83 @@
                             $project_description = $projects[$i]['project_description'];
                             $project_date = $projects[$i]['data_criacao'];
                             $project_id = $projects[$i]['project_id'];
+                            $project_session = $projects[$i]['session_id'];
+
+                            if ($project_session == $_SESSION['collab_sessionid']) {
                 ?>
-                            <tr>
-                                <td><strong><?php echo $project_name; ?></strong></td>
-                                <td><?php echo $project_description; ?></td>
-                                <td><p>Marcos</p> <p>Erika</p></td>
-                                <td>
-                                    <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
-                                    <br>
-                                    <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
-                                </td>
-                                <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
-                            </tr>
+                                <tr>
+                                    <td><strong><?php echo $project_name; ?></strong></td>
+                                    <td><?php echo $project_description; ?></td>
+                                    <td>
+                                    <?php $collab_check = new Collab();
+                                        $participants = $collab_check->get_participants($project_id);
+
+                                        if (is_array($participants) && count($participants) > 0) {
+                                            if(count($participants) <= 5) {
+                                                foreach ($participants as $participant) {
+                                                    echo htmlspecialchars($participant) . "<br>";
+                                                }
+                                            } else {
+                                                for($i=0; $i<=5; $i++) {
+                                                    echo htmlspecialchars($participants[$i]) . "<br>";
+                                                }
+                                            }
+                                        } else {
+                                            echo "No participants found.";
+                                        }?>
+                                    </td>
+                                    <td>
+                                        <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
+                                        <br>
+                                        <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                    </td>
+                                    <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
+                                </tr>
                 <?php
+                            } else {
+                ?>
+                                <tr>
+                                    <td><strong><?php echo $project_name; ?></strong></td>
+                                    <td><?php echo $project_description; ?></td>
+                                    <td>
+                                    <?php $collab_check = new Collab();
+                                        $participants = $collab_check->get_participants($project_id);
+
+                                        if (is_array($participants) && count($participants) > 0) {
+                                            if(count($participants) <= 5) {
+                                                foreach ($participants as $participant) {
+                                                    echo htmlspecialchars($participant) . "<br>";
+                                                }
+                                            } else {
+                                                for($i=0; $i<=5; $i++) {
+                                                    echo htmlspecialchars($participants[$i]) . "<br>";
+                                                }
+                                            }
+                                        } else {
+                                            echo "No participants found.";
+                                        }?>
+                                    </td>
+                                    <?php 
+                                        $collab_check = new Collab();
+
+                                        $permissions = $collab_check->check_permission($id, $project_id);
+
+                                        if ($permissions[0]['permission_type'] === 'admin') {
+                                    ?>
+                                    <td>
+                                        <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
+                                        <br>
+                                        <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                    </td>
+                                    <?php } else {?>
+                                        <td>
+                                            <p>Sem permissões.</p>
+                                        </td>
+                                    <?php } ?>
+                                    <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
+                                </tr>
+                                
+                <?php            }
                         }
                     }
                 ?>
@@ -199,29 +289,51 @@
                 </form>
             </div>
         </div>
+        
+        <?php if (!$no_projects) {
+        echo "<button class='manage-collaborators hidden'>Adicionar colaboradores</button>";
+        }
 
-        <!-- <div id="add_collaborators" class="projects-forms">
+        echo "<div id='add-collaborators' class='projects-forms hidden-project-form'>
             <h2>Adicionar colaboradores</h2>
-            <form action="" method="post">
-                <label for="projeto_colaborador">Projeto</label>
-                <select name="projeto_colaborador" id="projeto_colaborador">
-                    <?php //for($i = 0; $i < sizeof($projects); $i++) {
-                        //$project_name = $projects[$i]['project_name'];
-                        //echo "<option value='$project_name'>$project_name</option>";
-                    //}?>
-                </select>
+            <form action='' method='post'>
+                <label for='projeto_colaborador'>Projeto</label>
+                <select name='projeto_colaborador' id='projeto_colaborador'>";
+                        if (!$no_projects) {
+                            for ($i = 0; $i < sizeof($projects); $i++) {
+                            $project_name = $projects[$i]['project_name'];
+                            $project_description = $projects[$i]['project_description'];
+                            $project_date = $projects[$i]['data_criacao'];
+                            $project_id = $projects[$i]['project_id'];
+                            $project_session = $projects[$i]['session_id'];
+
+                                if ($_SESSION['collab_sessionid'] ===  $project_session) {
+
+                                    echo "<option value='$project_name'>$project_name</option>";
+                                } else {
+                                    $collab_check = new Collab();
+                                    $permissions = $collab_check->check_permission($id, $project_id);
+
+                                    if($permissions[0]['permission_type'] === 'admin') {
+                                        echo "<option value='$project_name'>$project_name</option>";
+                                    }
+                                }
+                            }
+                        }
+                echo "</select>
                 
-                <label for="permission_type">Permissão</label>
-                <select name="permission_type" id="permission_type">
-                    <option value="edit">Edição</option>
-                    <option value="admin">Administrador</option>
+                <label for='permissao'>Permissão</label>
+                <select name='permissao' id='permissao'>
+                    <option value='edit'>Edição</option>
+                    <option value='admin'>Administrador</option>
                 </select>
 
-                <label for="colaborador">Colaborador</label>
-                <input type="text" name="colaborador" id="colaborador" placeholder="Colaborador" required>
-                <button type="submit" name="add_participant">Adicionar</button>
+                <label for='colaborador'>Colaborador</label>
+                <input type='text' name='colaborador' id='colaborador' placeholder='Colaborador' required>
+                <button class='add_participant' type='submit' name='submit'>Adicionar</button>
             </form>
-        </div> -->
+        </div>";
+        ?>
     </main>
 
     <?php include("partials/footer.php") ?>

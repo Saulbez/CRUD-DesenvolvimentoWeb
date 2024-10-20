@@ -1,0 +1,78 @@
+:root {
+    --primary-color: #161D6F;
+    --secondary-color: #98DED9;
+    --text-color: #F6F6F6;
+    --assets: #C7FFD8;
+}
+
+main{
+    box-sizing: border-box;
+}
+
+h2 {
+    color: var(--primary-color);
+}
+
+div.form-wrapper {
+    width: 20rem;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+form input {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    padding: 0.4rem 0.5rem;
+}
+
+div#tables-wrapper {
+    display: flex;
+    gap: 2rem;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 7rem;
+}
+
+div.table-wrapper{
+    width: 80rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--primary-color);
+    border-radius: 0.5rem;
+}
+
+th {
+    color: var(--text-color);
+    font-size: 1.25rem;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+table.to-do th {
+    background-color: var(--primary-color);
+}
+
+table.in-progress th {
+    background-color: rgb(209, 209, 0);
+}
+
+table.done th {
+    background-color: darkgreen;
+}
+
+th, td {
+    padding: 1rem;
+}

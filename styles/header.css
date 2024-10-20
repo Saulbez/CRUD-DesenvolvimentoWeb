@@ -29,15 +29,8 @@ div#img-heading a {
     color: var(--assets);
 }
 
-div#img-heading {
-    background-color: var(--assets);
-    border-radius: 10px;
-    align-items: center;
-    padding: 2px;
-}
-
 img.logo {
-    width: 5rem;
+    width: 7rem;
 }
 
 div h1 {

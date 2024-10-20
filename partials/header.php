@@ -2,7 +2,7 @@
     <div class="main">
         <div id="img-heading">
             <a href="/CRUD-DesenvolvimentoWeb/index.php">
-                <img src="imagens/collab-high-resolution-logo-transparent.png" alt="logo" class="logo">
+                <img src="imagens/collab-logo-cropped.jpg" alt="logo" class="logo">
             </a>
         </div>
         <div class="hamburguer">

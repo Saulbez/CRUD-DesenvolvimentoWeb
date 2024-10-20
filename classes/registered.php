@@ -7,23 +7,63 @@ class User {
 
     public function get_projects($id) {
 
-        $query = "select * from projects where session_id = ?";
-
+        $query = "select project_id from permissions where session_id = ?";
         $types = "s";
-        $params = ["$id"];
-
-        $projects = [];
+        $params = [$id];
 
         $DB = new Database();
-        $result = $DB->read($query, $types, ...$params);
+        $result_collaboration = $DB->read($query, $types, ...$params);
 
-        if($result) {
+        if ($result_collaboration) {
+            $query = "select * from projects where session_id = ?";
+            $types = "s";
+            $params = ["$id"];
 
-            return $result;
+            $personal_projects = $DB->read($query, $types, ...$params);
+
+            $projects = [];
+
+            if ($personal_projects && is_array($personal_projects)) {
+                for ($i=0; $i<count($personal_projects); $i++) {
+                    array_push($projects, $personal_projects[$i]);
+                }
+            }
+
+            if ($result_collaboration && is_array($result_collaboration)) {
+                for ($i=0; $i<count($result_collaboration); $i++) {
+                    $query = "select * from projects where project_id = ?";
+                    $types = "i";
+                    $params = [$result_collaboration[$i]['project_id']];
+
+                    $result = $DB->read($query, $types, ...$params);
+                    if ($result && is_array($result)) {
+                        for ($j=0; $j<count($result); $j++) {
+                            array_push($projects, $result[$j]);
+                        }
+                    }
+                }
+            }
+
+            if($projects) {
+                return $projects;
+            } else {
+                return false;
+            }
+
         } else {
-            return false;
-        }
+            $query = "select * from projects where session_id = ?";
+            $types = "s";
+            $params = ["$id"];
 
+            $result = $DB->read($query, $types, ...$params);
+
+            if($result) {
+
+                return $result;
+            } else {
+                return false;
+            }
+        }
     }
 
     public function project_evaluate($image, $project, $id) {
