@@ -12,13 +12,14 @@ class Signup{
             }
 
             if ($key == "username") {
+
                 if (is_numeric($value)) {
 
-                $this->error = "O nome de usuário não pode ser um número.";
+                $this->error = "O nome não deve ser numérico.";
                 }
 
                 if (strstr($value, " ")) {
-                    $this->error = "O nome de usuário não pode conter espaços.";
+                    $this->error = "O nome não deve conter espaços.";
                 }
 
             }
@@ -40,8 +41,8 @@ class Signup{
         }
 
         if (!$this->error) {
-            $this->create_user($data);
-            return true;
+            $result = $this->create_user($data);
+            return $result;
         } else {
             return $this->error;
         }
@@ -63,7 +64,13 @@ class Signup{
         $params = ["$session_id", "$username", "$email", "$hashed_password"];
         
         $DB = new Database();
-        $DB->save($query, $types, ...$params);
+        $result = $DB->save($query, $types, ...$params);
+        
+        if (!$result) {
+            return true;
+        } else {
+            return $result;
+        }
     }
 
     private function create_sessionid() {

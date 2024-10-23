@@ -54,12 +54,26 @@
                         <?php
                             if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'signup') {
                                 $signup = new Signup();
-                                $result_signup = $signup->evaluate($_POST);
-                                if ($result_signup === true) {
-                                    echo "<p style='color: darkgreen;'>Cadastro realizado com sucesso!</p>";
-                                    echo "<script>setTimeout(function(){ window.location.href='login.php'; }, 2000);</script>";
-                                } else {
-                                    echo "<p>$result_signup</p>";
+                                
+                                try {
+                                    $result_signup = $signup->evaluate($_POST);
+                                    
+                                    // If the result is true, the signup was successful
+                                    if ($result_signup === true) {
+                                        echo "<p style='color: darkgreen; margin: 4px 0;'>Cadastro realizado com sucesso!</p>";
+                                        echo "<script>setTimeout(function(){ window.location.href='login.php'; }, 2000);</script>";
+                                    } else {
+                                        // Handle other types of responses
+                                        echo "<p style='margin: 4px 0;'>$result_signup</p>";
+                                    }
+                                } catch (Exception $e) {
+                                    // Check if the exception message contains the specific error
+                                    if (strpos($e->getMessage(), "Duplicate entry " . "'" . $_POST['email'] . "'" . " for key 'email'") !== false) {
+                                        echo "<p style='color: red; margin: 4px 0;'>Esse email já está cadastrado.</p>";
+                                    } else {
+                                        // Handle other exceptions
+                                        echo "<p style='color: red; margin: 4px 0;'>Erro: " . $e->getMessage() . "</p>";
+                                    }
                                 }
 
                                 $username = $_POST['username'];
