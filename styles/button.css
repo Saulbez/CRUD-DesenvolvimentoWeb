@@ -1,0 +1,65 @@
+.add-collaborator-btn {
+    width: 30px;
+    height: 30px;
+    background-image: url('../imagens/adicionar_icone.png'); /* Use o caminho completo */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+}
+
+.add-collaborator-btn:hover {
+    filter: brightness(1.2);
+}
+
+.add-collaborator-btn:focus {
+    outline: 2px solid #4a90e2;
+}
+
+.del-collaborator-btn {
+    width: 30px;
+    height: 30px;
+    background-image: url('../imagens/excluir_icone.png'); /* Use o caminho completo */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+}
+
+.del-collaborator-btn:hover {
+    filter: brightness(1.2);
+}
+
+.del-collaborator-btn:focus {
+    outline: 2px solid #4a90e2;
+}
+
+.foto-collaborator-btn {
+    width: 40px;
+    height: 40px;
+    background-image: url('../imagens/pessoa1.png'); /* Use o caminho completo */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+}
+
+.foto-collaborator-btn:hover {
+    filter: brightness(1.2);
+}
+
+.foto-collaborator-btn:focus {
+    outline: 2px solid #4a90e2;
+}
+
+.button-group {
+    display: flex;
+    gap: 35px; /* Ajuste o valor do gap para o espaçamento desejado entre os botões */
+    align-items: center;
+    justify-content: flex-end;
+}
+
+

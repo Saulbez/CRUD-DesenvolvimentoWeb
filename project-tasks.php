@@ -1,7 +1,7 @@
 <?php
 
-    $projeto = $_GET['project_id'];
-    print_r($projeto);
+$projeto = $_GET['project_id'];
+print_r($projeto);
 ?>
 
 <!DOCTYPE html>
@@ -15,11 +15,9 @@
     <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/project-tasks.css">
-
+    <link rel="stylesheet" href="styles/button.css">
     
 </head>
-
-
 
 <body>
 
@@ -42,7 +40,13 @@
                         <th>To do</th>
                     </tr>
                     <tr>
-                        <td>Teste</td>
+                    <td text-align: left;>
+                    <div class="button-group">
+                        teste
+                        <button class="foto-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button> 
+                        <button class="add-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button>
+                        <button class="del-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Excluir colaborador"></button>
+                    </div>
                     </tr>
                 </table>
             </div>
@@ -52,7 +56,13 @@
                         <th>In progress</th>
                     </tr>
                     <tr>
-                        <td>Teste</td>
+                    <td>
+                    <div class="button-group">
+                        Teste
+                        <button class="foto-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button> 
+                        <button class="add-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button>
+                        <button class="del-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Excluir colaborador"></button>
+                    </div>
                     </tr>
                 </table>
             </div>
@@ -62,7 +72,13 @@
                         <th>Done</th>
                     </tr>
                     <tr>
-                        <td>Teste</td>
+                    <td>
+                    <div class="button-group">
+                        Teste
+                    <button class="foto-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button> 
+                        <button class="add-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button>
+                        <button class="del-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Excluir colaborador"></button>
+                    </div>
                     </tr>
                 </table>
             </div>
@@ -71,7 +87,5 @@
     </main>
 
     <?php include('partials/footer.php') ?>
-
 </body>
 </html>
-
