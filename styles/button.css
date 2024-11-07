@@ -7,6 +7,7 @@
     background-position: center;
     border: none;
     cursor: pointer;
+    border-radius: 50%;
 }
 
 .add-collaborator-btn:hover {
@@ -26,6 +27,7 @@
     background-position: center;
     border: none;
     cursor: pointer;
+    border-radius: 50%;
 }
 
 .del-collaborator-btn:hover {
@@ -45,6 +47,7 @@
     background-position: center;
     border: none;
     cursor: pointer;
+    border-radius: 50%;
 }
 
 .foto-collaborator-btn:hover {
@@ -57,7 +60,7 @@
 
 .button-group {
     display: flex;
-    gap: 35px; /* Ajuste o valor do gap para o espaçamento desejado entre os botões */
+    gap: 0.6rem; /* Ajuste o valor do gap para o espaçamento desejado entre os botões */
     align-items: center;
     justify-content: flex-end;
 }

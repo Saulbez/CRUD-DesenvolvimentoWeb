@@ -32,19 +32,38 @@ form input {
     padding: 0.4rem 0.5rem;
 }
 
+button.add_step_button {
+    padding: .4rem 1rem;
+    border-radius: .5rem;
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: bold;
+    transition: 200ms;
+    margin-bottom: 1rem;
+}
+
+button.add_step_button:hover {
+    background-color: var(--primary-color);
+    color: var(--assets);
+}
+
 div#tables-wrapper {
     display: flex;
     gap: 2rem;
     width: 80%;
-    align-items: center;
-    justify-content: center;
     margin: 0 auto 7rem;
+    overflow: hidden;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
 }
 
 div.table-wrapper{
-    width: 80rem;
+    flex: 0 0 calc((100% - 4rem) / 3);
     border-radius: 0.5rem;
     overflow: hidden;
+    margin: 0 auto;
 }
 
 table {
@@ -59,6 +78,7 @@ th {
     color: var(--text-color);
     font-size: 1.25rem;
     border-bottom: 1px solid var(--primary-color);
+    padding: 0.8rem;
 }
 
 table.to-do th {
@@ -73,6 +93,22 @@ table.done th {
     background-color: darkgreen;
 }
 
-th, td {
-    padding: 1rem;
+td {
+    padding: 0 .5rem;
+    height: 4rem;
+}
+
+tr:not(:last-child) td{
+    border-bottom: 1px solid var(--primary-color);
+}
+
+div.tasks-btns-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.tasks-btns-flex p {
+    font-size: .9rem;
 }

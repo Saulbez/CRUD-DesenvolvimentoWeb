@@ -1,7 +1,12 @@
 <?php
+session_start();
+
+include("classes/connect.php");
 
 $projeto = $_GET['project_id'];
-print_r($projeto);
+
+$_SESSION['project_id'] = $projeto;
+
 ?>
 
 <!DOCTYPE html>
@@ -26,62 +31,50 @@ print_r($projeto);
     <main>
         <h2>Gerenciar tarefas</h2>
         <div class="form-wrapper">
-            <form action="" method="post">
-                <label for="add_task">Adicionar tarefa</label>
-                <input type="text" id="add_task" name="add_task">
-                <button type="submit" name="submit" class="add_task_button">Adicionar</button>
+            <form action="controllers/project-tasks-handler.php" method="post">
+                <label for="add_task">Nova etapa</label>
+                <input type="text" id="add_step" name="add_step">
+                <button type="submit" name="submit" class="add_step_button">Adicionar</button>
             </form>
         </div>
+        <?php 
 
-        <div id='tables-wrapper'>
-            <div class="table-wrapper">
-                <table class="to-do">
-                    <tr>
-                        <th>To do</th>
-                    </tr>
-                    <tr>
-                    <td text-align: left;>
-                    <div class="button-group">
-                        teste
-                        <button class="foto-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button> 
-                        <button class="add-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button>
-                        <button class="del-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Excluir colaborador"></button>
-                    </div>
-                    </tr>
-                </table>
-            </div>
-            <div class="table-wrapper">
-                <table class="in-progress">
-                    <tr>
-                        <th>In progress</th>
-                    </tr>
-                    <tr>
-                    <td>
-                    <div class="button-group">
-                        Teste
-                        <button class="foto-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button> 
-                        <button class="add-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button>
-                        <button class="del-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Excluir colaborador"></button>
-                    </div>
-                    </tr>
-                </table>
-            </div>
-            <div class="table-wrapper">
-                <table class="done">
-                    <tr>
-                        <th>Done</th>
-                    </tr>
-                    <tr>
-                    <td>
-                    <div class="button-group">
-                        Teste
-                    <button class="foto-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button> 
-                        <button class="add-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Adicionar colaborador"></button>
-                        <button class="del-collaborator-btn" onclick="AdicionarColaborador()" aria-label="Excluir colaborador"></button>
-                    </div>
-                    </tr>
-                </table>
-            </div>
+        $query = "select * from steps where project_id = ?";
+        $types = "i";
+        $params = [$projeto];
+
+        $DB = new Database();
+        $result = $DB->read($query, $types, ...$params);
+
+        if($result) {
+            echo "<div id='tables-wrapper'>";
+
+            for ($i = 0; $i < sizeof($result); $i++) {
+                $step_title = $result[$i]['step_title'];
+                echo "<div class='table-wrapper'>
+                    <table class='to-do'>
+                        <tr>
+                            <th>$step_title</th>
+                        </tr>
+                        <tr>
+                        <td>
+                            <div class='tasks-btns-flex'>
+                                <p>Teste</p>
+                                <div class='button-group'>
+                                    <button class='foto-collaborator-btn' onclick='AdicionarColaborador()' aria-label='Adicionar colaborador'></button>
+                                    <button class='add-collaborator-btn' onclick='AdicionarColaborador()' aria-label='Adicionar colaborador'></button>
+                                    <button class='del-collaborator-btn' onclick='AdicionarColaborador()' aria-label='Excluir colaborador'></button>
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                    </table>
+                </div>";
+            }
+        } else {
+            echo "<p>Não há tarefas para exibir.</p>";
+        }
+        ?>
         </div>
 
     </main>

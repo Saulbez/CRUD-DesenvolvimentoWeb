@@ -315,7 +315,7 @@
 
                                 if ($_SESSION['collab_sessionid'] ===  $project_session) {
 
-                                    echo "<option value='$project_name'>$project_name</option>";
+                                    echo "<option value='$project_id'>$project_name</option>";
                                 } else {
                                     $collab_check = new Collab();
                                     $permissions = $collab_check->check_permission($id, $project_id);

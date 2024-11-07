@@ -7,8 +7,8 @@ class Collab {
     private $db;
 
     public function project_exists($data, $id) {
-        $query = "select * from projects where lower(project_name) like lower(?) and session_id = ?";
-        $types = "ss";
+        $query = "select * from projects where project_id = ? and session_id = ?";
+        $types = "is";
         $params = [$data['projeto_colaborador'], $id];
 
         $this->db = new Database();
