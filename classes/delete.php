@@ -19,7 +19,7 @@
             $image_path = $result_image['0']['project_image'];
             define('ROOT_DIR', realpath(__DIR__ . '/../'));
 
-            $full_image_path = ROOT_DIR . '/uploads/' . $image_path;
+            $full_image_path = ROOT_DIR . '/image-uploads/projects/' . $image_path;
 
 
             $query = "delete from projects where project_id = ? and session_id = ?";

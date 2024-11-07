@@ -98,7 +98,7 @@ class User {
                         $this->error.= "$em<br>";
                     } else {
                         $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-                        $img_upload_path = 'uploads/'.$new_img_name;
+                        $img_upload_path = 'image-uploads/projects/'.$new_img_name;
                         move_uploaded_file($tmp_name, $img_upload_path);
 
                         $result = $this->create_project($new_img_name, $project, $id);

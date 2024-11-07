@@ -113,6 +113,7 @@ button.create-project:hover, button.create-project-dropdown:hover, button.edit-p
 button.manage-projects, button.manage-collaborators {
   color: var(--primary-color);
   width: 11rem;
+  border: 1px solid var(--primary-color);
 }
 
 button.manage-collaborators {
@@ -125,7 +126,7 @@ button.manage-projects:hover, button.manage-collaborators:hover {
 }
 
 .projects-wrapper {
-  width: 72%;
+  width: clamp(15rem, 72%, 88rem);
   margin:0 auto 5rem;
   transition-delay: 400ms;
 }
@@ -149,7 +150,7 @@ button.manage-projects:hover, button.manage-collaborators:hover {
     flex: 0 0 calc((100% - 2rem) / 3);
     background-color: var(--text-color);
     margin: auto;
-    height: clamp(15rem, 45vh, 40rem);
+    height: clamp(24rem, 35vh, 40rem);
     padding: 2rem;
     border-radius: 10px;
     cursor: pointer;
@@ -189,7 +190,6 @@ button.manage-projects:hover, button.manage-collaborators:hover {
     transition: 100ms;
     text-align: center;
     margin: 0;
-
 }
 
 .carousel-item:hover button {
@@ -197,6 +197,18 @@ button.manage-projects:hover, button.manage-collaborators:hover {
     background-color: var(--primary-color);
     color: var(--text-color);
 
+}
+
+div.project-collaborator {
+  padding: 0 5px;
+  background-color: #C7FFD8;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow:1px 0px 3px #0e134973;
 }
 
 .hidden {
@@ -359,7 +371,7 @@ div#add-collaborators {
 
 @media (min-width: 768px) and (max-width: 1199px) {
   .carousel-item {
-    height: 40vh;
+    height: clamp(23rem, 32vh, 30rem);
     flex: 0 0 calc(50% - 1rem); /* define a largura de cada item como 50% do carousel-wrapper */
   }
   div.input-project-name, div.edit-project-form, div#add-collaborators {
@@ -372,7 +384,7 @@ div#add-collaborators {
 @media (max-width: 767px) {
   .carousel-item {
     flex: 0 0 100%; /* define a largura de cada item como 100% do carousel-wrapper */
-    height: clamp(15rem, 55vh, 30rem);
+    height: clamp(28rem, 48vh, 45rem);
   }
   div.input-project-name, div.edit-project-form, div#add-collaborators{
     width: 70%;

@@ -24,6 +24,9 @@
                 <li>
                     <a href="/CRUD-DesenvolvimentoWeb/projects.php">Projetos</a>
                 </li>
+                <li>
+                    <a href="/Crud-DesenvolvimentoWeb/profile.php">Minha Conta</a>
+                </li>
             </ul>
         </nav>
     </div>

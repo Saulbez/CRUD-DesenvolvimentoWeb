@@ -89,7 +89,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -144,7 +144,7 @@
                                     if ($project_session  == $_SESSION['collab_sessionid']) {
                                         echo "<div class='carousel-item'>
                                             <a href='project-tasks.php?project_id=$current_project' class='card-link'>
-                                                <img src='uploads/$project_image' alt='Imagem 1'>
+                                                <img src='image-uploads/projects/$project_image' alt='Imagem 1'>
                                                 <h2>$project_name</h2>
                                                 <p>$project_description</p>
                                                 <button class='material-symbols-outlined'>arrow_forward</button>
@@ -153,12 +153,12 @@
                                     } else {
                                         echo "<div class='carousel-item' style='position: relative;'>
                                             <a href='project-tasks.php?project_id=$current_project' class='card-link'>
-                                                <img src='uploads/$project_image' alt='Imagem 1'>
+                                                <img src='image-uploads/projects/$project_image' alt='Imagem 1'>
                                                 <h2>$project_name</h2>
                                                 <p>$project_description</p>
                                                 <button class='material-symbols-outlined'>arrow_forward</button>
                                             </a>
-                                            <div style='padding: 0 5px; background-color: #C7FFD8; position: absolute; top: 10px; left: 5px; border-radius: 10px; font-weight: bold; font-size: 1rem;'>
+                                            <div class='project-collaborator'>
                                                 <p> Colaborador </p>
                                             </div>
                                         </div>";
@@ -221,7 +221,10 @@
                                         <br>
                                         <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
                                     </td>
-                                    <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
+                                    <td><data value='<?php echo $project_date; ?>'><?php
+                                        $dateObject = new DateTime($project_date);
+                                        echo $dateObject->format('d/m/y');
+                                    ?></data></td>
                                 </tr>
                 <?php
                             } else {
@@ -247,7 +250,7 @@
                                             echo "No participants found.";
                                         }?>
                                     </td>
-                                    <?php 
+                                    <?php
                                         $collab_check = new Collab();
 
                                         $permissions = $collab_check->check_permission($id, $project_id);
@@ -264,7 +267,10 @@
                                             <p>Sem permissões.</p>
                                         </td>
                                     <?php } ?>
-                                    <td><data value='<?php echo $project_date; ?>'><?php echo $project_date; ?></data></td>
+                                    <td><data value='<?php echo $project_date; ?>'><?php
+                                        $dateObject = new DateTime($project_date);
+                                        echo $dateObject->format('d/m/y');
+                                    ?></data></td>
                                 </tr>
                                 
                 <?php            }
@@ -329,7 +335,7 @@
                 </select>
 
                 <label for='colaborador'>Colaborador</label>
-                <input type='text' name='colaborador' id='colaborador' placeholder='Colaborador' required>
+                <input type='text' name='colaborador' id='colaborador' placeholder='Nome de usuário do colaborador' required>
                 <button class='add_participant' type='submit' name='submit'>Adicionar</button>
             </form>
         </div>";
