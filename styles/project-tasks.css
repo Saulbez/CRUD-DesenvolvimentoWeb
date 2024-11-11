@@ -7,15 +7,62 @@
 
 main{
     box-sizing: border-box;
+    position: relative;
 }
 
 h2 {
     color: var(--primary-color);
 }
 
+button.general {
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--assets);
+    border: none;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    border: 1px solid var(--assets);
+    border-radius: 0.5rem;
+    transition: 200ms;
+    font-weight: bold;
+    margin: .5rem 0 .5rem;
+    width: 7rem;
+}
+
+button.general:hover {
+    background-color: var(--assets);
+    color: var(--primary-color);
+}
+
+button.new-task-create {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+button.new-task-create:hover {
+    color: var(--assets);
+    background-color: var(--primary-color);
+}
+
+button.cancelBtn {
+    background-color: transparent;
+    color: var(--assets);
+    border: 1px solid rgb(182, 72, 72);
+}
+
+button.cancelBtn:hover {
+    color: var(--assets);
+    background-color: darkred;
+}
+
 div.form-wrapper {
     width: 20rem;
     margin: 0 auto;
+}
+
+div.hidden {
+    display: none;
 }
 
 form label {
@@ -24,12 +71,13 @@ form label {
     color: var(--primary-color);
 }
 
-form input {
+form input, form select, form textarea {
     display: block;
     margin: 0 auto;
     margin-bottom: 1.5rem;
     border-radius: 8px;
     padding: 0.4rem 0.5rem;
+    width: 100%;
 }
 
 button.add_step_button {
@@ -52,7 +100,7 @@ button.add_step_button:hover {
 div#tables-wrapper {
     display: flex;
     gap: 2rem;
-    width: 80%;
+    width: 85%;
     margin: 0 auto 7rem;
     overflow: hidden;
     overflow-x: scroll;
@@ -62,8 +110,27 @@ div#tables-wrapper {
 div.table-wrapper{
     flex: 0 0 calc((100% - 4rem) / 3);
     border-radius: 0.5rem;
-    overflow: hidden;
     margin: 0 auto;
+}
+
+div.tasks-form, div.update-collab, div.task-update {
+    background-color: var(--text-color);
+    color: var(--primary-color);
+    font-weight: bold;
+    width: clamp(18rem, 32vw, 35rem);
+    padding: 1rem 2rem;
+    margin: auto;
+    border-radius: .7rem;
+
+}
+
+div.tasks-form h3, div.update-collab h3, div.task-update h3 {
+    font-size: 1.5rem;
+}
+
+div.tasks-form label, div.update-collab label, div.task-update label {
+    margin-bottom: 0.7rem;
+    text-align: left;
 }
 
 table {
@@ -81,16 +148,8 @@ th {
     padding: 0.8rem;
 }
 
-table.to-do th {
+table th {
     background-color: var(--primary-color);
-}
-
-table.in-progress th {
-    background-color: rgb(209, 209, 0);
-}
-
-table.done th {
-    background-color: darkgreen;
 }
 
 td {
@@ -109,6 +168,130 @@ div.tasks-btns-flex {
     align-items: center;
 }
 
+.task {
+    cursor: move;
+}
+
 div.tasks-btns-flex p {
     font-size: .9rem;
+}
+
+div.update-collab {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--primary-color);
+    color: var(--assets);
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+}
+
+div.update-collab label {
+    color: var(--assets);
+}
+
+button.edit-task {
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+button.edit-task img {
+    width: 1rem;
+}
+
+button.task-details {
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    min-width: 10rem;
+}
+
+div.task-details, div.task-update {
+    background-color: var(--primary-color);
+    width: 60rem;
+    border-radius: .8rem;
+    margin: auto;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+div.task-update {
+    width: 25rem;
+}
+
+div.task-details th, div.task-update h3, div.task-update label {
+    font-size: 1rem;
+    color: var(--assets);
+}
+
+div.task-details {
+
+    max-width: 90%;
+    border: 1px solid #c7ffd87a;
+}
+
+div.task-update h3 {
+    font-size: 1.5rem;
+}
+
+div.task-details th:not(:first-child){
+    border-left: 1px solid var(--assets);
+}
+
+div.task-details td:not(:first-child) {
+    border-left: 1px solid var(--primary-color);
+}
+
+div.task-details tr:not(:first-child) {
+    background-color: var(--text-color);
+    border-radius: .5rem;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    div#tables-wrapper {
+        width: 90%;
+    }
+    div.table-wrapper{
+        flex: 0 0 calc((100% - 2rem) / 2);
+    }
+}
+
+@media (max-width: 767px) {
+    div#tables-wrapper {
+        width: 65%;
+    }
+    div.table-wrapper{
+        flex: 0 0 100%;
+    }
+}
+
+@media (max-width: 550px) {
+    div#tables-wrapper {
+        width: 95%;
+    }
+
+    div.tasks-form {
+        width: 15rem;
+    }
+
+    div.tasks-form h3{
+        font-size: 1rem;
+        margin-top: 0;
+    }
+
+    div.tasks-form label {
+        font-size: 0.75rem;
+    }
+
+    div.tasks-form input, div.tasks-form select, div.tasks-form textarea {
+        padding: .1rem;
+    }
 }

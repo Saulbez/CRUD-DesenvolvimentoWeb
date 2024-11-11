@@ -14,6 +14,7 @@
             $types = "is";
             $params = [$project_id, $session_id];
             $DB = new Database();
+            $DB->connect();
 
             $result_image = $DB->read($query, $types, ...$params);
             $image_path = $result_image['0']['project_image'];
@@ -21,13 +22,13 @@
 
             $full_image_path = ROOT_DIR . '/image-uploads/projects/' . $image_path;
 
-
             $query = "delete from projects where project_id = ? and session_id = ?";
             $types = "is";
             $params = [$project_id, $session_id];
 
-            $DB = new Database();
             $result_delete = $DB->save($query, $types, ...$params);
+
+            $_SESSION['delete_result'] = $result_delete;
 
             if (file_exists($full_image_path) && $image_path  != 'default.png') {
 
@@ -37,7 +38,40 @@
 
             header('Location: ../projects.php');
 
+        } elseif (isset($_GET['task_id'])) {
+            $project_id = $_GET['project_id'];
+            $task_id = $_GET['task_id'];
+    
+            $query = "delete from tasks where task_id = ? limit 1";
+            $types = "i";
+            $params = [$task_id];
+    
+            $DB = new Database();
+            $DB->connect();
+    
+            $result_delete = $DB->save($query, $types, ...$params);
+
+            $_SESSION['delete_result'] = $result_delete;
+    
+            header("Location: ../project-tasks.php?project_id=$project_id");
+        } elseif (isset($_GET['collaborator_id'])) {
+            $project_id = $_GET['project_id'];
+            $collaborator_id = $_GET['collaborator_id'];
+
+            $query = "delete from permissions where session_id = ? and project_id = ?";
+            $types = "si";
+            $params = [$collaborator_id, $project_id];
+
+            $DB = new Database();
+            $DB->connect();
+    
+            $result_delete = $DB->save($query, $types, ...$params);
+
+            $_SESSION['delete_result'] = $result_delete;
+
+            header("Location: ../projects.php");
         }
+
     } else {
         header('Location: ../login.php');
     }

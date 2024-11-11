@@ -64,9 +64,10 @@ class Signup{
         $params = ["$session_id", "$username", "$email", "$hashed_password"];
         
         $DB = new Database();
+        $DB->connect();
         $result = $DB->save($query, $types, ...$params);
         
-        if (!$result) {
+        if ($result) {
             return true;
         } else {
             return $result;

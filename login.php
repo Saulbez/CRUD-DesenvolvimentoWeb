@@ -64,7 +64,7 @@
                                         echo "<script>setTimeout(function(){ window.location.href='login.php'; }, 2000);</script>";
                                     } else {
                                         // Handle other types of responses
-                                        echo "<p style='margin: 4px 0;'>$result_signup</p>";
+                                        echo "<p style='margin: 4px 0;'>Houve um erro durante o cadastro.</p>";
                                     }
                                 } catch (Exception $e) {
                                     // Check if the exception message contains the specific error

@@ -8,55 +8,67 @@ class Database
     private $password = "";
     private $db = "collab";
 
-    function connect() {
-        $connection = mysqli_connect($this->host, $this->username, $this->password, $this->db);
+    private $connection;
 
-        return $connection;
+    public function connect() {
+        $this->connection = new mysqli($this->host, $this->username, $this->password, $this->db);
+        if ($this->connection->connect_error) {
+            die("Connection failed: " . $this->connection->connect_error);
+        }
     }
     
     function read($query, $types, ...$params) {
-        $conn = $this->connect();
-        $stmt = $conn->prepare($query);
+        $conn = $this->connection;
 
-        if (!$stmt) {
-            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
-        }
+        if(isset($query)) {
+            $stmt = $conn->prepare($query);
 
-        if ($types && $params) { 
-            $stmt->bind_param($types, ...$params); 
-        }
-
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            $data = false;
-            while($row = mysqli_fetch_assoc($result)) {
-                $data[] = $row;
+            if (!$stmt) {
+                die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
             }
 
-            return $data;
-        } else {
-            die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+            if ($types && $params) { 
+                $stmt->bind_param($types, ...$params); 
+            }
+
+            if ($stmt->execute()) {
+                $result = $stmt->get_result();
+                $data = false;
+                while($row = mysqli_fetch_assoc($result)) {
+                    $data[] = $row;
+                }
+
+                return $data;
+            } else {
+                die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
         }
     }
     
-    function save($query, $types = "", ...$params) {
-        $conn = $this->connect();
-        $stmt = $conn->prepare($query);
+    function save($query, $types, ...$params) {
+        $conn = $this->connection;
 
-        if (!$stmt) {
-            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+        if(isset($query)) {
+            $stmt = $conn->prepare($query);
+
+            if (!$stmt) {
+                die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+            }
+
+            if ($types && $params) { 
+                $stmt->bind_param($types, ...$params); 
+            }
+
+            if ($stmt->execute()) {
+                return $stmt; // Return the statement for result handling
+            } else {
+                die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+            }
         }
+    }
 
-        if ($types && $params) { 
-            $stmt->bind_param($types, ...$params); 
-        }
-
-        if ($stmt->execute()) {
-            return $stmt; // Return the statement for result handling
-        } else {
-            die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
-        }
-
+    function getLastInsertId() {
+        return $this->connection->insert_id; // Retorna o ID do último registro inserido
     }
 
 }

@@ -14,6 +14,8 @@ if(isset($_SESSION['collab_sessionid'])) {
     $login = new Login();
 
     $result = $login->check_login($id);
+    $DB = new Database();
+    $DB->connect();
     
     if($result) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,7 +26,6 @@ if(isset($_SESSION['collab_sessionid'])) {
                 $types = "s";
                 $params = ["$id"];
 
-                $DB = new Database();
                 $result = $DB->read($query, $types, ...$params);
 
                 $hashedPassword = $result[0]['user_password'];
@@ -51,7 +52,6 @@ if(isset($_SESSION['collab_sessionid'])) {
                     $types = 'ss';
                     $params = [password_hash($newPassword, PASSWORD_DEFAULT), $id];
             
-                    $DB = new Database();
                     $result = $DB->save($query, $types, ...$params);
             
                     if ($result) {
@@ -90,7 +90,6 @@ if(isset($_SESSION['collab_sessionid'])) {
                                     $types = "s";
                                     $params = [$id];
 
-                                    $DB = new Database();
                                     $result = $DB->read($query, $types, ...$params);
 
                                     $image_path = $result[0]['profile_image'];
@@ -112,7 +111,6 @@ if(isset($_SESSION['collab_sessionid'])) {
                                 $types = "ss";
                                 $params = [$new_img_name, $id];
 
-                                $DB = new Database();
                                 $result = $DB->save($query, $types, ...$params);
 
                             }
@@ -126,7 +124,6 @@ if(isset($_SESSION['collab_sessionid'])) {
                 $types = "ss";
                 $params = [$_POST['new-username'], $id];
 
-                $DB = new Database();
                 $result = $DB->save($query, $types, ...$params);
             } elseif (isset($_POST['logoff'])) {
                 $_SESSION = [];

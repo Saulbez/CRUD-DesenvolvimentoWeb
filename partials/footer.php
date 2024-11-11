@@ -28,20 +28,6 @@
             <a href="#"><img src="imagens/logos/github-icon-seeklogo.svg" alt=""></a>
             <a href="#"><img src="imagens/logos/linkedin-icon-seeklogo.png" alt=""></a>
         </div>
-        <p>Simone</p>
-        <div class="contacts">
-            <a href="#"><img src="imagens/logos/instagram-new-2016-seeklogo.png" alt=""></a>
-            <a href="#"><img src="imagens/logos/facebook-seeklogo.png" alt=""></a>
-            <a href="#"><img src="imagens/logos/github-icon-seeklogo.svg" alt=""></a>
-            <a href="#"><img src="imagens/logos/linkedin-icon-seeklogo.png" alt=""></a>
-        </div>
-        <p>Jotape</p>
-        <div  class="contacts">
-            <a href="#"><img src="imagens/logos/instagram-new-2016-seeklogo.png" alt=""></a>
-            <a href="#"><img src="imagens/logos/facebook-seeklogo.png" alt=""></a>
-            <a href="#"><img src="imagens/logos/github-icon-seeklogo.svg" alt=""></a>
-            <a href="#"><img src="imagens/logos/linkedin-icon-seeklogo.png" alt=""></a>
-        </div>
     
     </div>
 </footer>

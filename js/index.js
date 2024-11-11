@@ -6,6 +6,7 @@ hamburguer.onclick = function() {
 
 
 const currentPage = window.location.pathname;
+console.log(currentPage);
 const navLinks = document.querySelectorAll("nav > ul > li a");
 
 navLinks.forEach(link => {
@@ -13,6 +14,10 @@ navLinks.forEach(link => {
         link.classList.add("active");
     }
 });
+
+if (currentPage == "/CRUD-DesenvolvimentoWeb/project-tasks.php") {
+    navLinks[3].classList.add("active");
+}
 
 const carousel = document.querySelector('.carousel-wrapper');
 const prevButton = document.querySelector('.prev');
@@ -60,10 +65,14 @@ if (prevButton && nextButton) {
 const form = document.querySelector(".project-form");
 const showForm = document.querySelector(".create-project-dropdown")
 
-showForm.addEventListener("click", () => {
-  form.classList.toggle("hidden-project-form");
-  showForm.classList.toggle("hidden-project-form");
-});
+if (showForm && form) {
+
+    showForm.addEventListener("click", () => {
+        form.classList.toggle("hidden-project-form");
+        showForm.classList.toggle("hidden-project-form");
+    });
+
+}
 
 const projectsCarousel = document.querySelector(".global-carousel-wrapper");
 const projectsTable = document.querySelector(".projects-table")
@@ -93,9 +102,6 @@ hiddenElements.forEach((el) => observer.observe(el));
 //Mostrar e esconder o formulário para atualizar projeto
 // e adicionar o id do projeto a um input escondido para saber que projeto será editado
 
-// Show/hide the form used to update projects
-// and add the project id to a hidden input for handling each project update
-
 const editProjectForm = document.querySelector(".edit-project-form");
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -113,15 +119,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const cancelButton = document.querySelector(".cancel");
 
-cancelButton.addEventListener("click", () => {
-    editProjectForm.classList.add("hidden-project-form");
-});
+if (cancelButton) {
+    cancelButton.addEventListener("click", () => {
+        editProjectForm.classList.add("hidden-project-form");
+    });
+}
 
-const collaborators = document.querySelector(".manage-collaborators");
+const collaborators = document.querySelectorAll(".manage-collaborators");
+const cancelCollabAdd = document.querySelector("button.cancel-add-collab");
+const collaboratorsForm = document.querySelector("#add-collaborators");
 
 if (collaborators) {
-    collaborators.addEventListener("click", () => {
-        const collaboratorsForm = document.querySelector("#add-collaborators");
-        collaboratorsForm.classList.remove("hidden-project-form")
+    collaborators.forEach(addCollaborator => {
+        addCollaborator.addEventListener("click", () => {
+            collaboratorsForm.classList.remove("hidden-project-form");
+        });
     });
+}
+
+if (cancelCollabAdd) {
+    cancelCollabAdd.addEventListener("click", function () {
+        collaboratorsForm.classList.add("hidden-project-form")
+    });
+}
+
+let editCollaboratorsBtn = document.querySelectorAll(".edit-collab-all");
+let collaboratorManageTable = document.querySelectorAll("div.collaborator-info-wrapper");
+let closeCollaboratorBtn = document.querySelectorAll("button.close-collab-info");
+
+console.log(collaboratorManageTable);
+
+if (editCollaboratorsBtn) {
+    for (let i = 0; i < editCollaboratorsBtn.length; i++) {
+        editCollaboratorsBtn[i].addEventListener("click", function () {
+            collaboratorManageTable[i].classList.remove("hidden-btn");
+        })
+    }
+}
+
+if (closeCollaboratorBtn) {
+    for (let i = 0; i < closeCollaboratorBtn.length; i++) {
+        closeCollaboratorBtn[i].addEventListener("click", function () {
+            collaboratorManageTable[i].classList.add("hidden-btn");
+        })
+    }
 }

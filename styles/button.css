@@ -41,13 +41,25 @@
 .foto-collaborator-btn {
     width: 40px;
     height: 40px;
-    background-image: url('../imagens/pessoa1.png'); /* Use o caminho completo */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     border: none;
     cursor: pointer;
     border-radius: 50%;
+    padding: 0;
+}
+
+.foto-collaborator-btn img, td img.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+div.task-owner-info {
+    padding: .3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .foto-collaborator-btn:hover {

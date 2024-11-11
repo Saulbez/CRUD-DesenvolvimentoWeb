@@ -16,6 +16,7 @@
             $params = ["$email"];
 
             $DB = new Database();
+            $DB->connect();
             $result = $DB->read($query, $types, ...$params);
 
             if ($result) {
@@ -53,6 +54,7 @@
             $params = ["$id"];
 
             $DB = new Database();
+            $DB->connect();
             $result = $DB->read($query, $types, ...$params);
 
             if($result) {

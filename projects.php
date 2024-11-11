@@ -6,11 +6,11 @@
     include("classes/registered.php");
     include("classes/collaborator.php");
 
-    //check if user is logged in
     if (isset($_SESSION['collab_sessionid'])) {
         $no_projects = "";
 
         $check_project_input = false;
+        $check_project_creation = false;
 
         $id = $_SESSION['collab_sessionid'];
         $login = new Login();
@@ -27,6 +27,7 @@
 
                         $project_check = new User();
                         $check_project_input = $project_check->project_evaluate($project_image, $_POST, $id);
+                        $_SESSION['check_project_input'] = $check_project_input;
 
                         header("Location: projects.php");
                         
@@ -37,6 +38,7 @@
     
                         $project_check = new User();
                         $check_project_input = $project_check->project_evaluate($project_image, $_POST, $id);
+                        $_SESSION['check_project_input'] = $check_project_input;
 
                         header("Location: projects.php");
     
@@ -58,7 +60,11 @@
 
             }
 
-            if ($check_project_input) {
+            if( isset($_SESSION['check_project_input']) ) {
+                $check_project_creation = $_SESSION['check_project_input'];
+            }
+
+            if ($check_project_creation) {
 
             }
 
@@ -130,7 +136,7 @@
         <div class="projects-wrapper hidden">
             <?php
             $this_project = false;
-                if (!$no_projects) {
+                if (!empty($projects)) {
                         echo "<button class='manage-projects'>Editar projetos</button>
                             <div class='global-carousel-wrapper'>
                                 <div class='carousel-wrapper c-carousel c-carousel--simple'>";
@@ -193,79 +199,89 @@
                             $project_id = $projects[$i]['project_id'];
                             $project_session = $projects[$i]['session_id'];
 
-                            if ($project_session == $_SESSION['collab_sessionid']) {
                 ?>
+
                                 <tr>
                                     <td><strong><?php echo $project_name; ?></strong></td>
                                     <td><?php echo $project_description; ?></td>
                                     <td>
-                                    <?php $collab_check = new Collab();
+                                    <?php
+                                        $collab_check = new Collab();
                                         $participants = $collab_check->get_participants($project_id);
 
+                                        // echo "<pre>";
+                                        // print_r($participants);
+                                        // echo "</pre>";
+
                                         if (is_array($participants) && count($participants) > 0) {
+
+                                            echo "<div class='collaborator-info-wrapper hidden-btn'>
+                                            <table class='collab-table'>
+                                                <tr>
+                                                    <th>Colaboradores</th>
+                                                </tr>";
+
+                                            foreach ($participants as $participant) {
+                                                $collab_username = htmlspecialchars($participant['username']);
+                                                $collab_session = $participant['session_id'];
+    
+                                                        echo "<tr>
+                                                            <td><div class='collaborator-info'>$collab_username";
+                                                            if ($collab_username != $_SESSION["project_owner" . $project_id]) {
+                                                                echo "<a href='classes/delete.php?collaborator_id=$collab_session&project_id=$project_id'><img src='imagens/remove.png' alt='Remover'></a>";
+                                                            }
+                                                            echo "</div></td>
+                                                        </tr>";
+                                                            
+                                            }
+                                                        echo "</table>
+                                                        <button class='manage-collaborators hidden'>Adicionar colaboradores</button>
+                                                        <button class='close-collab-info'>Fechar</button>
+                                                    </div>";
+
                                             if(count($participants) <= 5) {
                                                 foreach ($participants as $participant) {
-                                                    echo htmlspecialchars($participant) . "<br>";
+
+                                                    $collab_username = htmlspecialchars($participant['username']);
+                                                    $collab_session = $participant['session_id'];
+
+                                                    echo htmlspecialchars($collab_username) . "<br>";
                                                 }
                                             } else {
                                                 for($i=0; $i<=5; $i++) {
-                                                    echo htmlspecialchars($participants[$i]) . "<br>";
+                                                    echo htmlspecialchars($participants[$i]['username']) . "<br>";
                                                 }
                                             }
+                                            
                                         } else {
-                                            echo "No participants found.";
+                                            echo "Apenas você.";
                                         }?>
-                                    </td>
-                                    <td>
-                                        <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
-                                        <br>
-                                        <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
-                                    </td>
-                                    <td><data value='<?php echo $project_date; ?>'><?php
-                                        $dateObject = new DateTime($project_date);
-                                        echo $dateObject->format('d/m/y');
-                                    ?></data></td>
-                                </tr>
-                <?php
-                            } else {
-                ?>
-                                <tr>
-                                    <td><strong><?php echo $project_name; ?></strong></td>
-                                    <td><?php echo $project_description; ?></td>
-                                    <td>
-                                    <?php $collab_check = new Collab();
-                                        $participants = $collab_check->get_participants($project_id);
+                                        <img src='imagens/dots.png' alt='editar colaboradores' class='edit-collab-all edit-collaborators'>
 
-                                        if (is_array($participants) && count($participants) > 0) {
-                                            if(count($participants) <= 5) {
-                                                foreach ($participants as $participant) {
-                                                    echo htmlspecialchars($participant) . "<br>";
-                                                }
-                                            } else {
-                                                for($i=0; $i<=5; $i++) {
-                                                    echo htmlspecialchars($participants[$i]) . "<br>";
-                                                }
-                                            }
-                                        } else {
-                                            echo "No participants found.";
-                                        }?>
                                     </td>
                                     <?php
                                         $collab_check = new Collab();
 
                                         $permissions = $collab_check->check_permission($id, $project_id);
 
-                                        if ($permissions[0]['permission_type'] === 'admin') {
+                                        if (!empty($permissions)) {
+                                            if ($permissions[0]['permission_type'] === 'admin' || $project_session == $id) {
                                     ?>
                                     <td>
-                                        <button class='edit-project' data-project-id='<?php echo $project_id; ?>'>Editar</button>
+                                        <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
                                         <br>
-                                        <button name='delete' class='delete-project'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                        <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
                                     </td>
                                     <?php } else {?>
                                         <td>
                                             <p>Sem permissões.</p>
                                         </td>
+                                    <?php } } elseif ($project_session == $id) { ?>
+                                    <td>
+                                        <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
+                                        <br>
+                                        <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                    </td>
                                     <?php } ?>
                                     <td><data value='<?php echo $project_date; ?>'><?php
                                         $dateObject = new DateTime($project_date);
@@ -275,7 +291,6 @@
                                 
                 <?php            }
                         }
-                    }
                 ?>
             </table>
             <div class="edit-project-form hidden-project-form projects-forms">
@@ -296,9 +311,7 @@
             </div>
         </div>
         
-        <?php if (!$no_projects) {
-        echo "<button class='manage-collaborators hidden'>Adicionar colaboradores</button>";
-        }
+        <?php
 
         echo "<div id='add-collaborators' class='projects-forms hidden-project-form'>
             <h2>Adicionar colaboradores</h2>
@@ -336,7 +349,10 @@
 
                 <label for='colaborador'>Colaborador</label>
                 <input type='text' name='colaborador' id='colaborador' placeholder='Nome de usuário do colaborador' required>
-                <button class='add_participant' type='submit' name='submit'>Adicionar</button>
+                <div class='add-collab-btns'>
+                    <button class='cancel-add-collab' type='button'>Cancelar</button>
+                    <button class='add_participant' type='submit' name='submit'>Adicionar</button>
+                </div>
             </form>
         </div>";
         ?>

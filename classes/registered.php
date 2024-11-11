@@ -4,6 +4,7 @@ class User {
 
     private $numeric = "";
     private $error= "";
+    private $working = "";
 
     public function get_projects($id) {
 
@@ -12,6 +13,7 @@ class User {
         $params = [$id];
 
         $DB = new Database();
+        $DB->connect();
         $result_collaboration = $DB->read($query, $types, ...$params);
 
         if ($result_collaboration) {
@@ -54,7 +56,7 @@ class User {
             $query = "select * from projects where session_id = ?";
             $types = "s";
             $params = ["$id"];
-
+            $DB->connect();
             $result = $DB->read($query, $types, ...$params);
 
             if($result) {
@@ -75,7 +77,7 @@ class User {
                 }
             }
         }
-        if ($image && !$numeric) {
+        if ($image && !$this->numeric) {
 
             $result = "";
 
@@ -123,11 +125,13 @@ class User {
 
     private function create_project($image_name, $project_data, $id) {
         $DB = new Database();
+        $DB->connect();
+
         $session_id = $id;
-        $update_id = isset($project_data['update_id']) ? $project_data['update_id'] : null;
+        $project_id = isset($project_data['update_id']) ? $project_data['update_id'] : null;
     
-        if ($update_id) {
-            // This is an update operation
+        if ($project_id) {
+
             $query = "update projects set ";
             $types = "";
             $params = [];
@@ -152,18 +156,25 @@ class User {
             }
     
             if (empty($updates)) {
-                $this->error .= "No fields to update.";
-                return false;
+                $this->error .= "Nenhum campo para atualizar.";
+                return $this->error;
             }
     
             $query .= implode(", ", $updates);
             $query .= " where project_id = ? AND session_id = ?";
             $types .= "is";
-            $params[] = $update_id;
+            $params[] = $project_id;
             $params[] = $session_id;
+
+            $result = $DB->save($query, $types, ...$params);
+
+            if($result) {
+                $this->working = "Projeto atualizado!";
+                return $this->working;
+            }
     
         } else {
-            // This is an insert operation
+
             $query = "insert into projects (session_id, project_name, project_description, project_image) values (?, ?, ?, ?)";
             $types = "ssss";
             $params = [
@@ -172,12 +183,37 @@ class User {
                 $project_data['project-description'] ?? '',
                 $image_name ?: 'default.png'
             ];
+
+            $result = $DB->save($query, $types, ...$params);
+
+            if($result) {
+                echo "true";
+                $project_id = $DB->getLastInsertId();
+                echo $project_id;
+
+                $step_titles = ["Por fazer", "Em progresso", "Concluído"];
+
+                for ($i = 0; $i < sizeof($step_titles); $i++) {
+                    $current_title = $step_titles[$i];
+
+                    $query = "insert into steps (project_id, step_title) values (?, ?)";
+                    $types = "ss";
+                    $params = [$project_id, $current_title];
+
+                    $DB->save($query, $types, ...$params);
+                }
+
+            } else {
+                echo "false";
+                $this->error .= "Houve um erro ao salvar o projeto.";
+            }
         }
     
-        if ($DB->save($query, $types, ...$params)) {
-            return true; // Project created/updated successfully
+        if ($result) {
+            return true;
+
         } else {
-            $this->error .= "An error occurred while saving the project.";
+            $this->error .= "Houve um erro ao salvar o projeto.";
             return false;
         }
     }

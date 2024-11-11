@@ -18,6 +18,7 @@ if (isset($_SESSION['collab_sessionid'])) {
         $params = [$id];
 
         $DB = new Database();
+        $DB->connect();
         $userData = $DB->read($query, $types, ...$params);
 
         if (isset($_SESSION['message'])) {

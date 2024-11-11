@@ -12,6 +12,7 @@ class Collab {
         $params = [$data['projeto_colaborador'], $id];
 
         $this->db = new Database();
+        $this->db->connect();
         $result_project =  $this->db->read($query, $types, ...$params);
 
         if ($result_project) {
@@ -60,6 +61,7 @@ class Collab {
         $params = [$session_id, $project_id];
 
         $this->db = new Database();
+        $this->db->connect();
         $projects_collaborating_permissions = $this->db->read($query, $types, ...$params);
         if ($projects_collaborating_permissions) {
             return $projects_collaborating_permissions;
@@ -69,30 +71,55 @@ class Collab {
     }
 
     public function get_participants($project_id) {
-
         $query = "SELECT * FROM permissions WHERE project_id = ?";
         $types = "i";
         $params = [$project_id];
     
         $this->db = new Database();
+        $this->db->connect();
         $permissions = $this->db->read($query, $types, ...$params);
     
         $participants = [];
     
+        // Obter o session_id do criador do projeto
+        $query = "SELECT session_id FROM projects WHERE project_id = ?";
+        $types = "i"; // Altere para 'i' se project_id for inteiro
+        $params = [$project_id];
+    
+        $project = $this->db->read($query, $types, ...$params);
+        if ($project) {
+            $creator_session_id = $project[0]['session_id'];
+    
+            // Adiciona o criador do projeto como participante
+            $query = "SELECT * FROM users WHERE session_id = ?";
+            $types = "s";
+            $params = [$creator_session_id];
+    
+            $creatorResult = $this->db->read($query, $types, ...$params);
+            if ($creatorResult) {
+                array_push($participants, $creatorResult[0]); // Adiciona o criador ao array
+                $_SESSION["project_owner" . $project_id] = $creatorResult[0]['username'];
+            }
+        }
+    
+        // Se houver permissões, adicione os usuários com permissões
         if ($permissions) {
             foreach ($permissions as $permission) {
-                $query = "SELECT username FROM users WHERE session_id = ?";
+                $query = "SELECT * FROM users WHERE session_id = ?";
                 $types = "s";
-                $params = [$permission['session_id']]; // Correct access to sessions_id
+                $params = [$permission['session_id']];
     
                 $usernameResult = $this->db->read($query, $types, ...$params);
-                
-                // Assuming usernameResult returns an array
+    
+                // Adiciona o usuário ao array de participantes
                 if ($usernameResult && isset($usernameResult[0]['username'])) {
-                    $participants[] = $usernameResult[0]['username']; // Extract username
+                    for ($i = 0; $i < count($usernameResult); $i++) {
+                        array_push($participants, $usernameResult[$i]); // Extrai o usuário
+                    }
                 }
             }
         }
+    
         return $participants;
     }
 }

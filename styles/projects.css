@@ -22,6 +22,10 @@ main > h2{
   margin-top: 5rem;
 }
 
+.hidden-btn {
+  display: none;
+}
+
 div.create-project-form {
     text-align: center;
     padding: 60px 0;
@@ -97,7 +101,7 @@ button:not(.material-symbols-outlined){
   background-color: transparent;
   padding: 0.5rem 1.25rem;
   width: 8rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   transition: 200ms;
 }
 
@@ -110,19 +114,36 @@ button.create-project:hover, button.create-project-dropdown:hover, button.edit-p
   color: var(--primary-color);
 }
 
-button.manage-projects, button.manage-collaborators {
+button.manage-projects {
   color: var(--primary-color);
   width: 11rem;
   border: 1px solid var(--primary-color);
 }
 
 button.manage-collaborators {
-  margin-bottom: 5rem;
+  border: 1px solid var(--assets);
+  color: var(--assets);
+  display: block;
+  margin: auto;
+  margin-bottom: 1rem;
+  width: 10rem;
 }
 
-button.manage-projects:hover, button.manage-collaborators:hover {
+button.manage-collaborators:hover {
+  color: var(--primary-color);
+  background-color: var(--assets);
+}
+
+button.manage-projects:hover {
   background-color: var(--primary-color);
   color: var(--assets);
+}
+
+div.add-collab-btns {
+  display: flex;
+  width: 20rem;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .projects-wrapper {
@@ -261,6 +282,11 @@ table {
 
 div.table-wrapper {
   position: relative;
+  overflow: hidden;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  height: fit-content;
+  margin: 3rem 0;
 }
 
 th {
@@ -268,11 +294,22 @@ th {
   color: var(--assets);
 }
 
-button.edit-project, button.delete-project {
+.edit-collaborators {
+  display: block;
+  cursor: pointer;
+  margin: auto;
+  padding: .2rem .6rem;
+  height: 1.5rem;
+
+  background-color: #161d6f75;
+  border-radius: .3rem;
+}
+
+button.edit-text, button.delete-text {
   width: 6rem;
 }
 
-button.edit-project, button.edit-project-confirm{
+button.edit-text, button.edit-project-confirm{
   background-color: var(--primary-color);
   color: var(--assets);
   margin-bottom: 0.75rem;
@@ -282,21 +319,21 @@ button.edit-project-confirm {
   margin-bottom: 0;
 }
 
-button.edit-project:hover, button.edit-project-confirm:hover {
+button.edit-text:hover, button.edit-project-confirm:hover {
   background-color: #161d6fd2;
   color: var(--assets);
 }
 
-button.delete-project a {
+button.delete-text a {
   color: var(--assets);
 }
 
-button.delete-project, button.cancel {
+button.delete-text, button.cancel, button.cancel-add-collab {
   background-color: darkred;
   color: var(--assets);
 }
 
-button.delete-project:hover, button.cancel:hover {
+button.delete-text:hover, button.cancel:hover, button.cancel-add-collab:hover {
   background-color: rgba(139, 0, 0, 0.699);
 }
 
@@ -367,6 +404,52 @@ div.edit-cancel {
 div#add-collaborators {
   background-color: var(--primary-color);
   margin-bottom: 10rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.collaborator-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.collaborator-info img {
+  width: 1rem;
+  height: 1rem;
+}
+
+.collaborator-info-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(20rem, 30vw, 30rem);
+  background-color: var(--primary-color);
+}
+
+.collaborator-info-wrapper tr:not(:first-child) {
+  background-color: whitesmoke;
+}
+
+table.collab-table {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+button.close-collab-info {
+  color: var(--assets);
+  border: 1px solid var(--assets);
+  transition: 200ms;
+  margin-bottom: 1rem;
+  padding: .25rem .8rem;
+}
+
+button.close-collab-info:hover {
+  background-color: var(--assets);
+  color: var(--primary-color);
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
@@ -398,5 +481,20 @@ div#add-collaborators {
 @media (max-width: 550px) {
   .carousel-item {
     height: 22rem;
+  }
+  .edit-text, .delete-text {
+    display: none;
+  }
+  .edit-icon, .delete-icon {
+    display: inline-block;
+  }
+
+  .actions-imgs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 60%;
+    height: 100%;
+    margin: auto;
   }
 }
