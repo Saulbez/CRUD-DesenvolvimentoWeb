@@ -125,22 +125,33 @@ if (cancelButton) {
     });
 }
 
-const collaborators = document.querySelectorAll(".manage-collaborators");
-const cancelCollabAdd = document.querySelector("button.cancel-add-collab");
-const collaboratorsForm = document.querySelector("#add-collaborators");
+let collaborators = document.querySelectorAll(".manage-collaborators");
+let cancelCollabAdd = document.querySelectorAll("button.cancel-add-collab");
+let collaboratorsForm = document.querySelectorAll(".add-collaborators-row");
 
-if (collaborators) {
-    collaborators.forEach(addCollaborator => {
-        addCollaborator.addEventListener("click", () => {
-            collaboratorsForm.classList.remove("hidden-project-form");
+console.log(collaborators);
+console.log(collaboratorsForm);
+
+if (collaborators.length > 0) {
+    for (let i = 0; i < collaborators.length; i++) {
+        collaborators[i].addEventListener("click", function() {
+            // Verifica se o formulário correspondente existe
+            if (collaboratorsForm[i]) {
+                collaboratorsForm[i].classList.remove("hidden-project-form");
+            }
         });
-    });
+    }
 }
 
-if (cancelCollabAdd) {
-    cancelCollabAdd.addEventListener("click", function () {
-        collaboratorsForm.classList.add("hidden-project-form")
-    });
+if (cancelCollabAdd.length > 0) {
+    for (let i = 0; i < cancelCollabAdd.length; i++) {
+        cancelCollabAdd[i].addEventListener("click", function() {
+            // Verifica se o formulário correspondente existe
+            if (collaboratorsForm[i]) {
+                collaboratorsForm[i].classList.add("hidden-project-form");
+            }
+        });
+    }
 }
 
 let editCollaboratorsBtn = document.querySelectorAll(".edit-collab-all");

@@ -72,6 +72,7 @@ $_SESSION['project_id'] = $projeto;
                         <tr>
                             <th>$step_title
                                 <div id='task-creation'>
+
                                     <button class='new-task general'>Nova tarefa</button>
                                     <div class='tasks-form hidden'>
                                         <h3>Nova tarefa</h3>

@@ -181,181 +181,152 @@
                 }
             ?>
         </div>
-        <div class="table-wrapper">
-            <table class="hide-projects-table projects-table hidden">
-                <tr>
-                    <th>Projeto</th>
-                    <th>Descrição</th>
-                    <th>Participantes</th>
-                    <th>Ações</th>
-                    <th>Data de criação</th>
-                </tr>
-                <?php
-                    if (!$no_projects) {
-                        for ($i = 0; $i < sizeof($projects); $i++) {
-                            $project_name = $projects[$i]['project_name'];
-                            $project_description = $projects[$i]['project_description'];
-                            $project_date = $projects[$i]['data_criacao'];
-                            $project_id = $projects[$i]['project_id'];
-                            $project_session = $projects[$i]['session_id'];
-
-                ?>
-
-                                <tr>
-                                    <td><strong><?php echo $project_name; ?></strong></td>
-                                    <td><?php echo $project_description; ?></td>
-                                    <td>
-                                    <?php
-                                        $collab_check = new Collab();
-                                        $participants = $collab_check->get_participants($project_id);
-
-                                        // echo "<pre>";
-                                        // print_r($participants);
-                                        // echo "</pre>";
-
-                                        if (is_array($participants) && count($participants) > 0) {
-
-                                            echo "<div class='collaborator-info-wrapper hidden-btn'>
-                                            <table class='collab-table'>
-                                                <tr>
-                                                    <th>Colaboradores</th>
-                                                </tr>";
-
-                                            foreach ($participants as $participant) {
-                                                $collab_username = htmlspecialchars($participant['username']);
-                                                $collab_session = $participant['session_id'];
-    
-                                                        echo "<tr>
-                                                            <td><div class='collaborator-info'>$collab_username";
-                                                            if ($collab_username != $_SESSION["project_owner" . $project_id]) {
-                                                                echo "<a href='classes/delete.php?collaborator_id=$collab_session&project_id=$project_id'><img src='imagens/remove.png' alt='Remover'></a>";
-                                                            }
-                                                            echo "</div></td>
-                                                        </tr>";
-                                                            
-                                            }
-                                                        echo "</table>
-                                                        <button class='manage-collaborators hidden'>Adicionar colaboradores</button>
-                                                        <button class='close-collab-info'>Fechar</button>
-                                                    </div>";
-
-                                            if(count($participants) <= 5) {
+        <div id='tables-wrapper'>
+            <div class="table-wrapper">
+                <table class="hide-projects-table projects-table hidden">
+                    <tr>
+                        <th>Projeto</th>
+                        <th>Descrição</th>
+                        <th>Participantes</th>
+                        <th>Ações</th>
+                        <th>Data de criação</th>
+                    </tr>
+                    <?php
+                        if (!$no_projects) {
+                            for ($i = 0; $i < sizeof($projects); $i++) {
+                                $project_name = $projects[$i]['project_name'];
+                                $project_description = $projects[$i]['project_description'];
+                                $project_date = $projects[$i]['data_criacao'];
+                                $project_id = $projects[$i]['project_id'];
+                                $project_session = $projects[$i]['session_id'];
+                    ?>
+                                    <tr>
+                                        <td><strong><?php echo $project_name; ?></strong></td>
+                                        <td><?php echo $project_description; ?></td>
+                                        <td>
+                                        <?php
+                                            $collab_check = new Collab();
+                                            $participants = $collab_check->get_participants($project_id);
+                                            // echo "<pre>";
+                                            // print_r($participants);
+                                            // echo "</pre>";
+                                            if (is_array($participants) && count($participants) > 1) {
+                                                echo "<div class='collaborator-info-wrapper hidden-btn'>
+                                                <table class='collab-table'>
+                                                    <tr>
+                                                        <th>Colaboradores</th>
+                                                    </tr>";
                                                 foreach ($participants as $participant) {
-
                                                     $collab_username = htmlspecialchars($participant['username']);
                                                     $collab_session = $participant['session_id'];
-
-                                                    echo htmlspecialchars($collab_username) . "<br>";
+                                                            echo "<tr>
+                                                                <td><div class='collaborator-info'>$collab_username";
+                                                                if ($collab_username != $_SESSION["project_owner" . $project_id]) {
+                                                                    echo "<a href='classes/delete.php?collaborator_id=$collab_session&project_id=$project_id'><img src='imagens/remove.png' alt='Remover'></a>";
+                                                                }
+                                                                echo "</div></td>
+                                                            </tr>";
+            
                                                 }
+                                                            echo "</table>
+                                                            <button class='manage-collaborators hidden' data-project-id='$project_id'>Adicionar</button>
+                                                            <button class='close-collab-info'>Fechar</button>
+                                                        </div>";
+                                                if(count($participants) <= 5) {
+                                                    foreach ($participants as $participant) {
+                                                        $collab_username = htmlspecialchars($participant['username']);
+                                                        $collab_session = $participant['session_id'];
+                                                        echo htmlspecialchars($collab_username) . "<br>";
+                                                    }
+                                                } else {
+                                                    for($i=0; $i<=5; $i++) {
+                                                        echo htmlspecialchars($participants[$i]['username']) . "<br>";
+                                                    }
+                                                }
+            
                                             } else {
-                                                for($i=0; $i<=5; $i++) {
-                                                    echo htmlspecialchars($participants[$i]['username']) . "<br>";
-                                                }
-                                            }
-                                            
-                                        } else {
-                                            echo "Apenas você.";
-                                        }?>
-                                        <img src='imagens/dots.png' alt='editar colaboradores' class='edit-collab-all edit-collaborators'>
-
-                                    </td>
-                                    <?php
-                                        $collab_check = new Collab();
-
-                                        $permissions = $collab_check->check_permission($id, $project_id);
-
-                                        if (!empty($permissions)) {
-                                            if ($permissions[0]['permission_type'] === 'admin' || $project_session == $id) {
-                                    ?>
-                                    <td>
-                                        <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
-                                        <br>
-                                        <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
-                                    </td>
-                                    <?php } else {?>
-                                        <td>
-                                            <p>Sem permissões.</p>
+                                                echo "Apenas você.";
+                                            }?>
+                                            <img src='imagens/dots.png' alt='editar colaboradores' class='edit-collab-all edit-collaborators'>
                                         </td>
-                                    <?php } } elseif ($project_session == $id) { ?>
-                                    <td>
-                                        <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
-                                        <br>
-                                        <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
-                                    </td>
-                                    <?php } ?>
-                                    <td><data value='<?php echo $project_date; ?>'><?php
-                                        $dateObject = new DateTime($project_date);
-                                        echo $dateObject->format('d/m/y');
-                                    ?></data></td>
-                                </tr>
-                                
-                <?php            }
-                        }
-                ?>
-            </table>
-            <div class="edit-project-form hidden-project-form projects-forms">
-                <h2>Editar projeto</h2>
-                <form class="project-form update-project-form" action="" method="post" enctype="multipart/form-data">
-                    <label for="project-name">Nome do projeto</label>
-                    <input type="text" name="project-name" id="project-name" placeholder="Digite o nome do projeto">
-                    <label for="project-description">Descrição do projeto</label>
-                    <input type="text" id="project-description" name="project-description" placeholder="Descrição do projeto">
-                    <label for="project-image">Imagem do projeto</label>
-                    <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg, image/jpg">
-                    <input type="hidden" name="update_id" value="">
-                    <div class="edit-cancel">
-                        <button type="button" class="cancel">Cancelar</button>
-                        <button type='submit' name='submit' class='edit-project-confirm'>Editar</button>
-                    </div>
-                </form>
+                                        <?php
+                                            $collab_check = new Collab();
+                                            $permissions = $collab_check->check_permission($id, $project_id);
+                                            if (!empty($permissions)) {
+                                                if ($permissions[0]['permission_type'] === 'admin' || $project_session == $id) {
+                                        ?>
+                                        <td>
+                                            <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
+                                            <br>
+                                            <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                        </td>
+                                        <?php } else {?>
+                                            <td>
+                                                <p>Sem permissões.</p>
+                                            </td>
+                                        <?php } } elseif ($project_session == $id) { ?>
+                                        <td>
+                                            <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
+                                            <br>
+                                            <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                            <div class='actions-imgs'>
+                                                <button class='edit-project edit-icon' data-project-id='<?php echo $project_id; ?>'><img class='edit-pencil' src="imagens/pencil.png" alt=""></button>
+                                                <button class='delete-project delete-icon'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'><img class='delete-trash' src="imagens/excluir_icone.png" alt=""></a></button>
+                                            </div>
+                                        </td>
+                                        <?php } ?>
+                                        <td><data value='<?php echo $project_date; ?>'><?php
+                                            $dateObject = new DateTime($project_date);
+                                            echo $dateObject->format('d/m/y');
+                                        ?></data></td>
+                                    </tr>
+            
+                    <?php
+                               echo "<tr class='add-collaborators-row hidden-project-form'>
+                               <td colspan='5'>
+                                   <div id='add-collaborators' class='projects-forms'>
+                                       <h2>Adicionar colaboradores</h2>
+                                       <form action='' method='post'>
+                                           <input type='hidden' name='projeto_colaborador' id='projeto_colaborador' value='{$project_id}'>
+                                           <label for='permissao'>Permissão</label>
+                                           <select name='permissao' id='permissao'>
+                                               <option value='edit'>Edição</option>
+                                               <option value='admin'>Administrador</option>
+                                           </select>
+                                           <label for='colaborador'>Colaborador</label>
+                                           <input type='text' name='colaborador' id='colaborador' placeholder='Nome de usuário do colaborador' required>
+                                           <div class='add-collab-btns'>
+                                               <button class='cancel-add-collab' type='button'>Cancelar</button>
+                                               <button class='add_participant' type='submit' name='submit'>Adicionar</button>
+                                           </div>
+                                       </form>
+                                   </div>
+                               </td>
+                             </tr>";
+                    }
+                }
+                    ?>
+                    
+                </table>
+                <div class="edit-project-form hidden-project-form projects-forms">
+                    <h2>Editar projeto</h2>
+                    <form class="project-form update-project-form" action="" method="post" enctype="multipart/form-data">
+                        <label for="project-name">Nome do projeto</label>
+                        <input type="text" name="project-name" id="project-name" placeholder="Digite o nome do projeto">
+                        <label for="project-description">Descrição do projeto</label>
+                        <input type="text" id="project-description" name="project-description" placeholder="Descrição do projeto">
+                        <label for="project-image">Imagem do projeto</label>
+                        <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg, image/jpg">
+                        <input type="hidden" name="update_id" value="">
+                        <div class="edit-cancel">
+                            <button type="button" class="cancel">Cancelar</button>
+                            <button type='submit' name='submit' class='edit-project-confirm'>Editar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         
-        <?php
-
-        echo "<div id='add-collaborators' class='projects-forms hidden-project-form'>
-            <h2>Adicionar colaboradores</h2>
-            <form action='' method='post'>
-                <label for='projeto_colaborador'>Projeto</label>
-                <select name='projeto_colaborador' id='projeto_colaborador'>";
-                        if (!$no_projects) {
-                            for ($i = 0; $i < sizeof($projects); $i++) {
-                            $project_name = $projects[$i]['project_name'];
-                            $project_description = $projects[$i]['project_description'];
-                            $project_date = $projects[$i]['data_criacao'];
-                            $project_id = $projects[$i]['project_id'];
-                            $project_session = $projects[$i]['session_id'];
-
-                                if ($_SESSION['collab_sessionid'] ===  $project_session) {
-
-                                    echo "<option value='$project_id'>$project_name</option>";
-                                } else {
-                                    $collab_check = new Collab();
-                                    $permissions = $collab_check->check_permission($id, $project_id);
-
-                                    if($permissions[0]['permission_type'] === 'admin') {
-                                        echo "<option value='$project_name'>$project_name</option>";
-                                    }
-                                }
-                            }
-                        }
-                echo "</select>
-                
-                <label for='permissao'>Permissão</label>
-                <select name='permissao' id='permissao'>
-                    <option value='edit'>Edição</option>
-                    <option value='admin'>Administrador</option>
-                </select>
-
-                <label for='colaborador'>Colaborador</label>
-                <input type='text' name='colaborador' id='colaborador' placeholder='Nome de usuário do colaborador' required>
-                <div class='add-collab-btns'>
-                    <button class='cancel-add-collab' type='button'>Cancelar</button>
-                    <button class='add_participant' type='submit' name='submit'>Adicionar</button>
-                </div>
-            </form>
-        </div>";
-        ?>
     </main>
 
     <?php include("partials/footer.php") ?>

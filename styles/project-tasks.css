@@ -117,7 +117,7 @@ div.tasks-form, div.update-collab, div.task-update {
     background-color: var(--text-color);
     color: var(--primary-color);
     font-weight: bold;
-    width: clamp(18rem, 32vw, 35rem);
+    width: clamp(18rem, 85%, 35rem);
     padding: 1rem 2rem;
     margin: auto;
     border-radius: .7rem;
@@ -224,7 +224,7 @@ div.task-details, div.task-update {
 }
 
 div.task-update {
-    width: 25rem;
+    width: clamp(14rem, 45vh, 25rem);
 }
 
 div.task-details th, div.task-update h3, div.task-update label {
@@ -279,19 +279,23 @@ div.task-details tr:not(:first-child) {
     }
 
     div.tasks-form {
-        width: 15rem;
+        width: 16rem;
     }
 
-    div.tasks-form h3{
+    div.tasks-form h3, div.task-update h3{
         font-size: 1rem;
         margin-top: 0;
     }
 
-    div.tasks-form label {
+    div.tasks-form label, div.task-update label {
         font-size: 0.75rem;
     }
 
-    div.tasks-form input, div.tasks-form select, div.tasks-form textarea {
+    div.tasks-form input, div.tasks-form select, div.tasks-form textarea, div.task-update input, div.task-update select, div.task-update textarea {
         padding: .1rem;
+    }
+
+    div.task-update {
+        width: clamp(10rem, 34vh, 25rem);
     }
 }

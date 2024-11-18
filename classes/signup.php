@@ -15,7 +15,7 @@ class Signup{
 
                 if (is_numeric($value)) {
 
-                $this->error = "O nome não deve ser numérico.";
+                    $this->error = "O nome não deve ser numérico.";
                 }
 
                 if (strstr($value, " ")) {

@@ -182,3 +182,28 @@ div.call-to-action a:hover {
     }
     
 }
+
+@media screen and (max-width: 550px) {
+    @media screen and (max-width: 550px) {
+        div.features {
+            align-items: center;
+            justify-content: center;
+        }
+    
+        div.feature-images {
+            display: grid;
+            grid-template-columns: 9rem 9rem;
+            grid-template-rows: 9rem 9rem;
+            gap: 10px;
+            width: 20rem; /* Altere para 100% */
+            margin: 0 auto; /* Adicione margens automáticas */
+        }
+    
+        div.feature-img {
+            width: 100%;
+        }
+        div.feature-img {
+            font-size: .6rem;
+        }
+    }
+}
