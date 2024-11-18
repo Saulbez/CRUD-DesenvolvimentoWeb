@@ -5,17 +5,38 @@ let tasksForm = document.querySelectorAll("div.tasks-form");
 let addTask = document.querySelectorAll("button.new-task");
 console.log (addTask);
 
-collabBtn = document.querySelectorAll("button.collab-btn");
-updateCollabForm = document.querySelectorAll("div.update-collab");
-cancelBtnRespon = document.querySelectorAll("button.cancel-responsible");
+const collabBtn = document.querySelectorAll("button.collab-btn");
+const updateCollabForm = document.querySelectorAll("div.update-collab");
+const cancelBtnRespon = document.querySelectorAll("button.cancel-responsible");
 
-taskDetailsBtn = document.querySelectorAll("button.task-details");
-taskDetailsTable = document.querySelectorAll("div.task-details");
-hideTaskDetailsBtn = document.querySelectorAll("button.hide-task-details");
+const taskDetailsBtn = document.querySelectorAll("button.task-details");
+const taskDetailsTable = document.querySelectorAll("div.task-details");
+const hideTaskDetailsBtn = document.querySelectorAll("button.hide-task-details");
 
-editTaskBtn = document.querySelectorAll("button.edit-task");
-updateTaskForm = document.querySelectorAll("div.task-update");
-cancelBtnTaskUpdate = document.querySelectorAll("button.cancel-task-update");
+const editTaskBtn = document.querySelectorAll("button.edit-task");
+const updateTaskForm = document.querySelectorAll("div.task-update");
+const cancelBtnTaskUpdate = document.querySelectorAll("button.cancel-task-update");
+
+const editStepBtn = document.querySelectorAll("button.edit-step");
+const editStepForm = document.querySelectorAll("div.update-step");
+const cancelStepUpdateBtn = document.querySelectorAll("button.cancel-step-update");
+
+const deleteStepBtnFirst = document.querySelectorAll("button.delete-step-first");
+const deleteStepConfirmation = document.querySelectorAll("div.delete-step-confirmation");
+const cancelDeleteStep = document.querySelectorAll("button.cancel-delete-step");
+
+for (let i = 0; i < deleteStepBtnFirst.length; i++) {
+    deleteStepBtnFirst[i].addEventListener("click", function () {
+        deleteStepConfirmation[i].classList.remove("hidden");
+    });
+}
+
+for (let i = 0; i < cancelDeleteStep.length; i++) {
+    cancelDeleteStep[i].addEventListener("click", function () {
+        deleteStepConfirmation[i].classList.add("hidden");
+    });
+}
+
 
 addStep.addEventListener("click", function () {
     stepForm.classList.toggle("hidden");
@@ -25,6 +46,18 @@ addStep.addEventListener("click", function () {
         addStep.textContent = "Cancelar";
     }
 });
+
+for (let i = 0; i < editStepBtn.length; i++) {
+    editStepBtn[i].addEventListener("click", function () {
+        editStepForm[i].classList.remove("hidden");
+    });
+}
+
+for (let i = 0; i < cancelStepUpdateBtn.length; i++) {
+    cancelStepUpdateBtn[i].addEventListener("click", function () {
+        editStepForm[i].classList.add("hidden");
+    });
+}
 
 for (let i = 0; i < addTask.length; i++) {
     addTask[i].addEventListener("click", function () {
@@ -86,6 +119,25 @@ for (let i = 0; i < cancelBtnTaskUpdate.length; i++) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.del-collaborator-btn');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+
+            event.preventDefault();
+
+            const confirmation = confirm("Você tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.");
+
+            if (confirmation) {
+
+                window.location.href = this.querySelector('.delete-link').href;
+            }
+
+        });
+    });
+});
+
 const tasks = document.querySelectorAll('.task');
 const steps = document.querySelectorAll('.table-wrapper');
 
@@ -101,25 +153,13 @@ steps.forEach(step => {
     step.addEventListener('touchend', touchEnd);
 });
 
-document.querySelectorAll('.task-container').forEach(container => {
-    container.addEventListener('dragover', (e) => {
-        e.preventDefault(); // Permitir que o elemento seja solto
-    });
-    container.addEventListener('drop', drop);
-
-    container.addEventListener('touchMove', (e) => {
-        e.preventDefault(); // Permitir que o elemento seja solto
-    });
-    container.addEventListener('touchend', touchEnd);
-});
-
 function dragStart(e) {
     console.log('Dragging task with ID:', e.target.id);
     e.dataTransfer.setData('text/plain', e.target.id);
 }
 
 function dragOver(e) {
-    e.preventDefault(); // Permitir que o elemento seja solto
+    e.preventDefault();
 }
 
 function drop(e) {
@@ -127,14 +167,13 @@ function drop(e) {
     const taskId = e.dataTransfer.getData('text/plain');
     const task = document.getElementById(taskId);
 
-    // Verifique se a tarefa foi encontrada antes de usá-la
     if (task) {
         const dropZone = e.target.closest('.task-container');
 
         if (dropZone) {
             dropZone.appendChild(task);
 
-            const newStepId = dropZone.dataset.stepId; // Supondo que você tenha um data attribute com o novo ID da etapa
+            const newStepId = dropZone.dataset.stepId;
             console.log(taskId, newStepId);
             updateTaskInDatabase(taskId, newStepId);
         } else {
@@ -146,47 +185,71 @@ function drop(e) {
 }
 
 function touchStart(e) {
-    const task = e.target;
+    const task = e.target.closest('.task');
+    if (task) {
+        console.log('Iniciando toque na tarefa:', task.id);
+    }
     const taskId = task.id;
+    startX = e.touches[0].pageX;
+    startY = e.touches[0].pageY;
 
-    // Adiciona um estilo para indicar que a tarefa está sendo "arrastada"
-    task.classList.add('dragging');
+    dragTimeout = setTimeout(() => {
+        task.classList.add('dragging');
+        isDragging = true;
+    }, 300);
 
-    // Armazena a tarefa sendo arrastada
-    task.dataset.touchId = taskId;
+    isMovingHorizontal = false;
 }
 
 function touchMove(e) {
-    const touch = e.touches[0];
-    const taskId = e.target.dataset.touchId;
-    const task = document.getElementById(taskId);
+    if (!isDragging) return;
 
-    // Atualiza a posição da tarefa arrastada
+    e.preventDefault();
+    const touch = e.touches[0];
+    const task = document.querySelector('.task.dragging');
+
     if (task) {
+
         task.style.position = 'absolute';
-        task.style.left = `${touch.pageX}px`;
-        task.style.top = `${touch.pageY}px`;
+        task.style.left = `${touch.pageX - (task.offsetWidth / 2)}px`;
+        task.style.top = `${touch.pageY - (task.offsetHeight / 2)}px`;
+        
+        console.log('Arrastando tarefa:', task.id);
+
     }
 }
 
 function touchEnd(e) {
-    const taskId = e.target.dataset.touchId;
-    const task = document.getElementById(taskId);
+    clearTimeout(dragTimeout);
+
+    if (!isDragging) return;
+
+    const task = document.querySelector('.task.dragging');
     const dropZone = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 
-    if (dropZone && dropZone.classList.contains('task-container')) {
-        dropZone.appendChild(task);
+    console.log('Zona de soltar detectada:', dropZone);
 
-        const newStepId = dropZone.dataset.stepId; // Supondo que você tenha um data attribute com o novo ID da etapa
-        console.log(taskId, newStepId);
-        updateTaskInDatabase(taskId, newStepId);
+    const validDropZone = dropZone.closest('.task-container');
+
+    if (validDropZone) {
+        validDropZone.appendChild(task);
+
+        const newStepId = validDropZone.dataset.stepId;
+        console.log('Tarefa movida:', task.id, 'para a nova etapa:', newStepId);
+        updateTaskInDatabase(task.id, newStepId);
+    } else {
+        console.error('Zona de soltar inválida ou não encontrada.');
     }
 
     // Limpa os estilos e dados
-    task.classList.remove('dragging');
-    task.style.position = '';
-    task.style.left = '';
-    task.style.top = '';
+    if (task) {
+        task.classList.remove('dragging');
+        task.style.position = '';
+        task.style.left = '';
+        task.style.top = '';
+    }
+
+    isDragging = false;
 }
 
 function updateTaskInDatabase(taskId, newStepId) {

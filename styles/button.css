@@ -18,18 +18,6 @@
     outline: 2px solid #4a90e2;
 }
 
-.del-collaborator-btn {
-    width: 30px;
-    height: 30px;
-    background-image: url('../imagens/excluir_icone.png'); /* Use o caminho completo */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: none;
-    cursor: pointer;
-    border-radius: 50%;
-}
-
 .del-collaborator-btn:hover {
     filter: brightness(1.2);
 }

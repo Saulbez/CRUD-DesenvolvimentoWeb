@@ -84,11 +84,10 @@ if($etapa) {
     $task_id = $_POST['task-id'];
     $task_name = $_POST['task-name'];
     $task_description = $_POST['task-description'];
-    $responsible_id = $_POST['responsible']; // Obtém o valor do responsável
+    $responsible_id = $_POST['responsible'];
 
-    // Verifica se o responsável é uma string vazia e define como null
     if ($responsible_id === '') {
-        $responsible_id = null; // Define como null se "Nenhum" for selecionado
+        $responsible_id = null;
     }
 
     $query = "UPDATE tasks SET task_name = ?, task_description = ?, responsible_id = ? WHERE task_id = ?";
@@ -100,6 +99,22 @@ if($etapa) {
     $result = $DB->save($query, $types, ...$params);
     header("Location: ../project-tasks.php?project_id=" . "$project_id");
     exit();
+
+} elseif (isset($_POST['update-step-btn'])) {
+    $new_step_name = $_POST['update-step'];
+    $step_id = $_POST['step-id'];
+    $project_id = $_POST['project-id'];
+
+    $query = "update steps set step_title = ? where step_id = ?";
+    $types = "si";
+    $params = [$new_step_name, $step_id];
+
+    $DB = new Database();
+    $DB->connect();
+    $result = $DB->save($query, $types, ...$params);
+    header("Location: ../project-tasks.php?project_id=$project_id");
+    exit();
+
 }
 
 ?>

@@ -60,7 +60,7 @@ class Database
             }
 
             if ($stmt->execute()) {
-                return $stmt; // Return the statement for result handling
+                return $stmt;
             } else {
                 die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
             }

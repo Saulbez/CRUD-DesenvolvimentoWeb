@@ -26,7 +26,6 @@
 
                 if (password_verify($password, $hashed_password)) {
 
-                    //create session data
                     $_SESSION['collab_sessionid'] = $row['session_id'];
                     $this->error = true;
 

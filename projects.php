@@ -246,6 +246,27 @@
             
                                             } else {
                                                 echo "Apenas você.";
+                                                echo "<div class='collaborator-info-wrapper hidden-btn'>
+                                                <table class='collab-table'>
+                                                    <tr>
+                                                        <th>Colaboradores</th>
+                                                    </tr>";
+                                                foreach ($participants as $participant) {
+                                                    $collab_username = htmlspecialchars($participant['username']);
+                                                    $collab_session = $participant['session_id'];
+                                                            echo "<tr>
+                                                                <td><div class='collaborator-info'>$collab_username";
+                                                                if ($collab_username != $_SESSION["project_owner" . $project_id]) {
+                                                                    echo "<a href='classes/delete.php?collaborator_id=$collab_session&project_id=$project_id'><img src='imagens/remove.png' alt='Remover'></a>";
+                                                                }
+                                                                echo "</div></td>
+                                                            </tr>";
+            
+                                                }
+                                                            echo "</table>
+                                                            <button class='manage-collaborators hidden' data-project-id='$project_id'>Adicionar</button>
+                                                            <button class='close-collab-info'>Fechar</button>
+                                                        </div>";
                                             }?>
                                             <img src='imagens/dots.png' alt='editar colaboradores' class='edit-collab-all edit-collaborators'>
                                         </td>
@@ -258,7 +279,7 @@
                                         <td>
                                             <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
                                             <br>
-                                            <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                            <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>' class='delete-link'>Excluir</a></button>
                                         </td>
                                         <?php } else {?>
                                             <td>
@@ -268,10 +289,10 @@
                                         <td>
                                             <button class='edit-project edit-text' data-project-id='<?php echo $project_id; ?>'>Editar</button>
                                             <br>
-                                            <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'>Excluir</a></button>
+                                            <button name='delete' class='delete-project delete-text'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>' class='delete-link'>Excluir</a></button>
                                             <div class='actions-imgs'>
                                                 <button class='edit-project edit-icon' data-project-id='<?php echo $project_id; ?>'><img class='edit-pencil' src="imagens/pencil.png" alt=""></button>
-                                                <button class='delete-project delete-icon'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>'><img class='delete-trash' src="imagens/excluir_icone.png" alt=""></a></button>
+                                                <button class='delete-project delete-icon'><a href='classes/delete.php?delete_id=<?php echo $project_id; ?>' class='delete-link'><img class='delete-trash' src="imagens/excluir_icone.png" alt=""></a></button>
                                             </div>
                                         </td>
                                         <?php } ?>

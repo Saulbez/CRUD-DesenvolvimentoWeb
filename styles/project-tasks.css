@@ -255,12 +255,98 @@ div.task-details tr:not(:first-child) {
     border-radius: .5rem;
 }
 
+button.edit-step img {
+    width: 1.2rem;
+}
+
+button.delete-step-first img {
+    width: 1.5rem;
+}
+
+button.edit-step, button.delete-step-first { 
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+div.step-actions {
+    display: flex;
+    width: 5rem;
+    background-color: var(--assets);
+    border-radius: .5rem;
+    align-items: center;
+    justify-content: space-around;
+    margin: .4rem auto;
+    padding: .2rem;
+}
+
+div.update-step, div.delete-step-confirmation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--text-color);
+    padding: 1.25rem 1rem;
+    border-radius: .8rem;
+    width: 25%;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.493);
+}
+
+div.delete-step-confirmation p{
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+div.update-step button.update-step-btn, div.update-step button.cancel-step-update {
+    width: 5.5rem;
+    border-radius: .5rem;
+    padding: .2rem .5rem;
+    font-size: .8rem;
+    cursor: pointer;
+}
+
+div.update-step button.update-step-btn {
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+}
+
+div.update-step button.cancel-step-update {
+    border: 1px solid darkred;
+    color: darkred;
+}
+
+div.update-step button.update-step-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--assets);
+}
+
+div.update-step button.cancel-step-update:hover {
+    background-color: darkred;
+    color: var(--assets);
+}
+
+div.update-step label {
+    font-size: 1.25rem;
+}
+
+button.del-collaborator-btn {
+    background-color: transparent;
+    border: none;
+}
+
+img.delete-trash {
+    width: 1.7rem;
+  }
+
 @media (min-width: 768px) and (max-width: 1199px) {
     div#tables-wrapper {
         width: 90%;
     }
     div.table-wrapper{
         flex: 0 0 calc((100% - 2rem) / 2);
+    }
+    div.update-step, div.delete-step-confirmation {
+        width: 50%;
     }
 }
 
@@ -270,6 +356,9 @@ div.task-details tr:not(:first-child) {
     }
     div.table-wrapper{
         flex: 0 0 100%;
+    }
+    div.update-step label {
+        font-size: 1rem;
     }
 }
 
@@ -297,5 +386,8 @@ div.task-details tr:not(:first-child) {
 
     div.task-update {
         width: clamp(10rem, 34vh, 25rem);
+    }
+    div.update-step, div.delete-step-confirmation {
+        width: 80%;
     }
 }

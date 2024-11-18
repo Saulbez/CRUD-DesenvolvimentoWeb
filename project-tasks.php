@@ -45,8 +45,8 @@ $_SESSION['project_id'] = $projeto;
         <button class="new-step add_step_button general">Nova etapa</button>
         <div class="form-wrapper hidden">
             <form action="controllers/project-tasks-handler.php" method="post">
-                <label for="add_task">Nova etapa</label>
-                <input type="text" id="add_step" name="add_step">
+                <label for="add_step">Nova etapa</label>
+                <input type="text" id="add_step" name="add_step" placeholder='Nome da etapa'>
                 <button type="submit" name="submit" class="add_step_button">Adicionar</button>
             </form>
         </div>
@@ -72,6 +72,17 @@ $_SESSION['project_id'] = $projeto;
                         <tr>
                             <th>$step_title
                                 <div id='task-creation'>
+                                    <div class='step-actions'>
+                                        <button class='edit-step'><img src='imagens/pencil.png'></button>
+                                        <button class='delete-step-first'><img src='imagens/excluir_icone.png'></button>
+
+                                        <div class='delete-step-confirmation hidden'>
+                                            <p>Deseja realmente excluir esta <strong>etapa</strong>?</p>
+
+                                            <button class='cancel-delete-step'>Cancelar</button>
+                                            <a href='classes/delete.php?step_id=$step_id&project_id=$projeto'><button class='delete-step'>Excluir</button></a>
+                                        </div>
+                                    </div>
 
                                     <button class='new-task general'>Nova tarefa</button>
                                     <div class='tasks-form hidden'>
@@ -135,6 +146,18 @@ $_SESSION['project_id'] = $projeto;
                                             <button type='submit' name='new-task' class='new-task-create general'>Criar</button>
                                         </form>
                                     </div>
+                                    <div class='update-step hidden'>
+                                        <form action='controllers/project-tasks-handler.php' method='post'>
+                                            <label for='update-step'>Novo nome da etapa</label>
+                                            <input type='text' name='update-step' id='update-step' placeholder='Nome da etapa'>
+
+                                            <input type='hidden' name='step-id' value='$step_id'>
+                                            <input type='hidden' name='project-id' value='$projeto'>
+
+                                            <button type='button' class='cancel-step-update'>Cancelar</button>
+                                            <button type='submit' class='update-step-btn' name='update-step-btn'>Atualizar</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </th>
                         </tr>";
@@ -178,7 +201,7 @@ $_SESSION['project_id'] = $projeto;
                                                         } else {
                                                             echo "<button class='add-collaborator-btn collab-btn' aria-label='Adicionar colaborador'></button>";
                                                         }
-                                                        echo "<a href='classes/delete.php?task_id=$task_id&project_id=$projeto'><button class='del-collaborator-btn' aria-label='Excluir tarefa'></button></a>
+                                                        echo "<button class='del-collaborator-btn' aria-label='Excluir tarefa'><a href='classes/delete.php?task_id=$task_id&project_id=$projeto' class='delete-link'><img class='delete-trash' src='imagens/excluir_icone.png' alt=''></a></button>
                                                         </div>";
 
                                                         echo "<div class='update-collab hidden'>
@@ -250,16 +273,16 @@ $_SESSION['project_id'] = $projeto;
 
                                     }
                                 } else {
-                                    // echo"<tr>
-                                    //         <td>
-                                    //             <div class='tasks-btns-flex'>";
-                                    //             echo "<p>Não há tarefas para exibir.</p>";
-                                    //         echo "</div> <!-- Fechando a div tasks-btns-flex -->
-                                    //         </td>
-                                    //     </tr>";
+                                    echo"<tr>
+                                            <td>
+                                                <div class='tasks-btns-flex'>";
+                                                echo "<p>Não há tarefas para exibir.</p>";
+                                            echo "</div> <!-- Fechando a div tasks-btns-flex -->
+                                            </td>
+                                        </tr>";
                                 }
 
-                                echo "  
+                                echo "
                     </table>
                 </div>";
                 

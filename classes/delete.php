@@ -70,6 +70,22 @@
             $_SESSION['delete_result'] = $result_delete;
 
             header("Location: ../projects.php");
+        } elseif (isset($_GET['step_id'])) {
+            $step_id = $_GET['step_id'];
+            $project_id = $_GET['project_id'];
+
+            $query = "delete from steps where step_id = ? limit 1";
+            $types = "i";
+            $params = [$step_id];
+
+            $DB = new Database();
+            $DB->connect();
+
+            $result_delete = $DB->save($query, $types, ...$params);
+
+            $_SESSION['delete_result'] = $result_delete;
+
+            header("Location: ../project-tasks.php?project_id=$project_id");
         }
 
     } else {

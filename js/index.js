@@ -175,3 +175,23 @@ if (closeCollaboratorBtn) {
         })
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const deleteButtons = document.querySelectorAll('.delete-project');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+
+            event.preventDefault();
+
+            const confirmation = confirm("Você tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.");
+
+            if (confirmation) {
+
+                window.location.href = this.querySelector('.delete-link').href;
+            }
+
+        });
+    });
+});
