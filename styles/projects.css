@@ -107,6 +107,10 @@ button.create-project, button.create-project-dropdown, button.edit-project-confi
   color: var(--assets);
 }
 
+button.create-project-dropdown {
+  margin-bottom: .5rem;
+}
+
 button.create-project:hover, button.create-project-dropdown:hover, button.edit-project-confirm:hover {
   background-color: var(--assets);
   color: var(--primary-color);

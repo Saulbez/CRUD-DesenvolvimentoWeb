@@ -88,6 +88,12 @@ label.label-inputs {
     }
 }
 
+@media only screen and (max-width: 980px) {
+    nav ul li a{
+        font-size: 1rem;
+    }
+}
+
 @media only screen and (max-width: 900px) {
     .hamburguer {
         display: block;
