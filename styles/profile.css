@@ -1,0 +1,219 @@
+:root {
+    --primary-color: #161D6F;
+    --secondary-color: #98DED9;
+    --text-color: #F6F6F6;
+    --assets: #C7FFD8;
+}
+
+main {
+    margin: 2.5rem 0;
+}
+
+div#account-info {
+    background-color: var(--primary-color);
+    padding: 1.5rem 4rem;
+    width: clamp(20rem, 80vw, 36rem);
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    position: relative;
+}
+
+div.profile-image-wrapper {
+    width: 8rem;
+    height: 8rem;
+    background-color: rgb(228, 228, 228);
+    border-radius: 50%;
+    margin: 0 auto;
+    padding: 0.2rem;
+}
+
+img.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.733); */
+    border-radius: 50%;
+}
+
+div.username-options {
+    width: fit-content;
+    margin: 1.25rem auto;
+    color: var(--primary-color);
+    background-color: var(--assets);
+    border-radius: 0.4rem;
+    padding: 0.1rem 0 0.1rem 0.3rem;
+}
+
+div.username-options h2 {
+    font-size: 1.25rem;
+}
+
+div#username-form {
+    padding: .25rem .5rem;
+    width: clamp(13rem, 45vw,20rem);
+}
+
+div#account-info > h2 {
+    margin: 0;
+    margin-bottom: 1.5rem;
+    color: var(--assets);
+}
+
+div#account-info > hr, div#username-form hr {
+    border: 1px solid var(--assets);
+    margin-bottom: 1.5rem;
+}
+
+div#username-form hr {
+    border-color: var(--primary-color);
+    margin-top: 0;
+}
+
+h2.username {
+    font-size: 1rem;
+    display: inline-block;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--assets);
+    border: none;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    border: 1px solid var(--assets);
+    border-radius: 0.5rem;
+    transition: 200ms;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: var(--assets);
+    color: var(--primary-color);
+}
+
+button.edit-username {
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    border: none;
+    border-left: 1px solid var(--primary-color);
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 0;
+}
+
+button.edit-username img {
+    width: 1rem;
+}
+
+button.edit-profile-image {
+    margin-top: 0.6rem;
+}
+
+div.hidden {
+    display: none;
+}
+
+div#password-form {
+    width: clamp(20rem, 60vw, 35rem);
+    background-color: rgb(238, 237, 237);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 0.5rem;
+    padding: 1rem 2rem;
+    color: var(--primary-color);
+}
+
+div#password-form h3 {
+    margin: 0;
+    margin-top: 1rem;
+    font-size: 1.6rem;
+}
+
+div#password-form form label, div#username-form label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin: 2rem 0 1rem;
+}
+
+div#username-form label {
+    margin-top: 0;
+    margin-bottom: .2rem;
+}
+
+div#password-form form input:not(input[type=submit]), div#username-form input:not(input[type=submit]) {
+    display: block;
+    width: 100%;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid #161d6fa1;
+}
+
+div#password-form form input[type=submit], button.cancel, div#username-form input[type=submit], button.close, button.logoff {
+    border-radius: .5rem;
+    margin: 4rem auto 1rem;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: .5rem 1rem;
+    width: 7rem;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+div#username-form input[type=submit] {
+    margin: 1rem 0 0;
+}
+
+button.cancel {
+    border-color: darkred;
+    color: darkred;
+    margin-left: .5rem;
+}
+
+button.logoff {
+    color: var(--assets);
+    background-color: rgba(139, 0, 0, 0.808);
+    border: none;
+    margin-top: 1rem;
+}
+
+div#password-form form input[type=submit]:hover, div#username-form input[type=submit]:hover, button.close:hover {
+    background-color: var(--primary-color);
+    color: var(--assets);
+    border-color: var(--assets);
+}
+
+button.logoff:hover {
+    background-color: rgba(255, 0, 0, 0.788);
+}
+
+button.cancel:hover {
+    background-color: darkred;
+    color: var(--assets);
+    border-color: var(--primary-color);
+}
+
+p {
+     margin: 0;
+     margin-top: 1rem;
+}
+
+p.error {
+    color: darkred;
+}
+
+@media (max-width: 768px) {
+    div#username-form label {
+        font-size: .95rem;
+        margin-bottom: .5rem;
+    }
+    div#username-form input[type=submit] {
+        padding: .25rem .25rem;
+        margin: .75rem 0;
+    }
+}

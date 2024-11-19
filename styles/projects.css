@@ -1,0 +1,584 @@
+:root {
+    --primary-color: #161D6F;
+    --secondary-color: #98DED9;
+    --text-color: #F6F6F6;
+    --assets: #C7FFD8;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+main {
+  text-align: center;
+  color: var(--primary-color);
+  position: relative;
+}
+
+main > h2{
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 5rem;
+}
+
+.hidden-btn {
+  display: none;
+}
+
+div.create-project-form {
+    text-align: center;
+    padding: 60px 0;
+    background: url(../imagens/eden-constantino-OXmym9cuaEY-unsplash.jpg) fixed center / cover no-repeat rgba(0, 0, 0, 0.425);
+    background-blend-mode: darken;
+    width: 100%;
+    font-size: 2.5rem;
+    min-height: 20rem;
+}
+
+form {
+  text-align: left;
+  width: 30%;
+  padding: 20px 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 400ms;
+}
+
+.hidden-project-form {
+  display: none;
+}
+
+label {
+  width: clamp(11rem, 35vw, 18rem);
+  margin: .5rem 0 1rem;
+  font-size: clamp(.85rem, 2vh, 1.5rem);
+  color: var(--assets);
+}
+
+div.projects-forms h2 {
+    font-size: clamp(1rem, 2.4vh, 1.75rem);
+    font-weight: bold;
+    color: var(--assets);
+    margin-bottom: 0;
+}
+
+div.projects-forms {
+  border-radius: 20px;
+  margin: auto;
+  width: clamp(20rem, 30%, 32rem);
+  background: rgba(22, 29, 111, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4.2px);
+  border: 1px solid rgba(22, 29, 111, 0.62);
+}
+
+div#add_collaborators {
+  margin-bottom: 5rem;
+  background-color: var(--primary-color);
+}
+
+div.create-project-form input, form.update-project-form input, div#add-collaborators input, div#add-collaborators select {
+    background-color: var(--text-color);
+    border: none;
+    height: 2.5rem;
+    transform: translateY(calc(-50% + 0.8rem));
+    border-radius: 10px;
+    width: clamp(11rem, 35vw, 18rem);
+    margin-bottom: 1.25rem;
+}
+
+button:not(.material-symbols-outlined){
+  border-radius: 0.8rem;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  background-color: transparent;
+  padding: 0.5rem 1.25rem;
+  width: 8rem;
+  font-size: 0.8rem;
+  transition: 200ms;
+}
+
+button.create-project, button.create-project-dropdown, button.edit-project-confirm {
+  color: var(--assets);
+}
+
+button.create-project-dropdown {
+  margin-bottom: .5rem;
+}
+
+button.create-project:hover, button.create-project-dropdown:hover, button.edit-project-confirm:hover {
+  background-color: var(--assets);
+  color: var(--primary-color);
+}
+
+button.manage-projects, button.add_participant {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+button.manage-projects {
+  width: 11rem;
+}
+
+button.manage-collaborators {
+  border: 1px solid var(--assets);
+  color: var(--assets);
+  display: block;
+  margin: auto;
+  margin-bottom: 1rem;
+  width: 10rem;
+}
+
+button.manage-collaborators:hover {
+  color: var(--primary-color);
+  background-color: var(--assets);
+}
+
+button.manage-projects:hover, button.add_participant:hover {
+  background-color: var(--primary-color);
+  color: var(--assets);
+}
+
+div.add-collab-btns {
+  display: flex;
+  width: 20rem;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.projects-wrapper {
+  width: clamp(15rem, 72%, 88rem);
+  margin:0 auto 5rem;
+  transition-delay: 400ms;
+}
+
+.global-carousel-wrapper{
+    padding: 15px 0;
+    width: 100%;
+    position: relative;
+}
+
+.carousel-wrapper {
+    padding: 15px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.carousel-item {
+    flex: 0 0 calc((100% - 2rem) / 3);
+    background-color: var(--text-color);
+    margin: auto;
+    height: clamp(24rem, 35vh, 40rem);
+    padding: 2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.8rem;
+    border: 2px solid transparent;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.267);
+}
+
+.carousel-item:not(:first-child) {
+  margin-left: 16px;
+}
+
+.carousel-item:hover {
+    border: 2px solid var(--primary-color);
+}
+
+.card-link > img {
+    aspect-ratio: 16/9;
+    width: 100%;
+    object-fit: cover;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.733);
+}
+
+.carousel-item a {
+  color: var(--primary-color);
+}
+
+.carousel-item button{
+    padding: 0;
+    border-radius: 50%;
+    width: clamp(1.75rem, 5vw, 2.25rem);
+    height: clamp(1.75rem, 5vw, 2.25rem);
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    transform: rotate(-45deg);
+    transition: 100ms;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.carousel-item:hover button {
+    
+    background-color: var(--primary-color);
+    color: var(--text-color);
+
+}
+
+div.project-collaborator {
+  padding: 0 5px;
+  background-color: #C7FFD8;
+  position: absolute;
+  padding: .5rem;
+  top: 10px;
+  left: 5px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow:1px 0px 3px #0e134973;
+}
+
+.hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-100%);
+  transition: all 700ms;
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    border-radius: 50%;
+    color: #FFF;
+    background-color: var(--primary-color);
+    width: 2.5rem;
+    height: 2.5rem;
+    border: none;
+  }
+  
+.prev {
+  left: -3rem;
+  transform: rotateY(180deg);
+}
+
+.next {
+  right: -3rem;
+  transform: rotateY(360deg);
+}
+
+table, tr, th, td {
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+table {
+  margin-bottom: 5rem;
+  width: 70%;
+}
+
+div#tables-wrapper {
+  position: relative;
+}
+
+div.table-wrapper {
+  overflow: hidden;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  height: fit-content;
+  margin: 3rem 0;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: var(--assets);
+}
+
+.edit-collaborators {
+  display: block;
+  cursor: pointer;
+  margin: auto;
+  padding: .2rem .6rem;
+  height: 1.5rem;
+
+  background-color: #161d6f75;
+  border-radius: .3rem;
+}
+
+button.edit-text, button.delete-text {
+  width: 6rem;
+}
+
+button.edit-text, button.edit-project-confirm{
+  background-color: var(--primary-color);
+  color: var(--assets);
+  margin-bottom: 0.75rem;
+}
+
+button.edit-project-confirm {
+  margin-bottom: 0;
+}
+
+button.edit-text:hover, button.edit-project-confirm:hover {
+  background-color: #161d6fd2;
+  color: var(--assets);
+}
+
+button.delete-text a {
+  color: var(--assets);
+}
+
+button.delete-text, button.cancel {
+  background-color: darkred;
+  color: var(--assets);
+}
+
+button.delete-text:hover, button.cancel:hover, button.cancel-add-collab:hover {
+  background-color: rgba(139, 0, 0, 0.699);
+}
+
+button.cancel-add-collab {
+  background-color: transparent;
+  color: darkred;
+  border: 1px solid darkred;
+}
+
+button.cancel-add-collab:hover {
+  background-color: darkred;
+  color: var(--assets);
+}
+
+button.cancel, button.edit-project-confirm {
+  width: 8rem;
+  font-size: 0.9rem;
+  padding: 0.3rem 1rem;
+}
+
+button.cancel {
+  margin-right: 10px;
+}
+
+table.projects-table {
+  margin-top: 30px;
+}
+
+.hide-projects-carousel {
+  opacity: 0;
+  display: none;
+}
+
+.hide-projects-table{
+  opacity: 0;
+  display: none;
+  transition: 400ms;
+  animation-delay: 400ms;
+}
+
+div.edit-project-form {
+  color: var(--primary-color);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--text-color);
+  z-index: 5;
+  padding: 1rem;
+}
+
+div.edit-project-form form {
+  width: 80%;
+}
+
+form.update-project-form input {
+  background-color: #FFF;
+  border: 1px solid var(--primary-color);
+  height: 2rem;
+}
+
+div.edit-project-form h2 {
+  color: var(--primary-color);
+}
+
+div.edit-project-form label {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+div.edit-cancel {
+  margin: auto;
+  margin-top: 2rem;
+  width: 75%;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+div#add-collaborators {
+  background-color: var(--text-color);
+  margin-bottom: 10rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+}
+
+div#add-collaborators label, div#add-collaborators h2 {
+  color: var(--primary-color);
+}
+
+div#add-collaborators input, div#add-collaborators select {
+  background-color: #ebeaea;
+  border: .5px solid rgba(0, 0, 0, 0.527);
+}
+
+.collaborator-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.collaborator-info img {
+  width: 1rem;
+  height: 1rem;
+}
+
+.collaborator-info-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(20rem, 30vw, 30rem);
+  background-color: var(--primary-color);
+  border-radius: .5rem;
+}
+
+.collaborator-info-wrapper tr:not(:first-child) {
+  background-color: whitesmoke;
+}
+
+table.collab-table {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+button.close-collab-info {
+  color: var(--assets);
+  border: 1px solid var(--assets);
+  transition: 200ms;
+  margin-bottom: 1rem;
+  padding: .25rem .8rem;
+}
+
+button.close-collab-info:hover {
+  background-color: var(--assets);
+  color: var(--primary-color);
+}
+
+div.actions-imgs {
+  display: none;
+}
+
+tr.add-collaborators-row {
+  height: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .carousel-item {
+    height: clamp(23rem, 32vh, 30rem);
+    flex: 0 0 calc(50% - 1rem); /* define a largura de cada item como 50% do carousel-wrapper */
+  }
+  div.input-project-name, div.edit-project-form, div#add-collaborators {
+    width: 50%;
+  }
+
+}
+
+/* Media query para telas de smartphone (480 x 640) */
+@media (max-width: 767px) {
+  .carousel-item {
+    flex: 0 0 100%; /* define a largura de cada item como 100% do carousel-wrapper */
+    height: clamp(28rem, 48vh, 45rem);
+  }
+  div.input-project-name, div.edit-project-form, div#add-collaborators{
+    width: 70%;
+  }
+
+  table, tr, th, td {
+    padding: 4px 4px;
+  }
+}
+
+@media (max-width: 550px) {
+  .carousel-item {
+    height: 22rem;
+  }
+  .edit-text, .delete-text {
+    display: none;
+  }
+  button.edit-icon, button.delete-icon {
+    display: inline-block;
+    width: 2.8rem;
+    padding: 0;
+  }
+
+  img.edit-pencil {
+    width: 1.3rem;
+  }
+
+  img.delete-trash {
+    width: 1.4rem;
+  }
+
+  div.actions-imgs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+  }
+
+  .prev, .next {
+    width: 1.75rem;
+    height:1.75rem;
+  }
+
+  .prev {
+    left: -2rem;
+  }
+  
+  .next {
+    right: -2rem;
+  }
+
+  div#add-collaborators {
+    width: 50%;
+  }
+
+  div.edit-project-form input, div.edit-project-form textarea, div#add-collaborators input, div#add-collaborators select{
+    height: 1.5rem;
+  }
+
+  div.edit-project-form label, div#add-collaborators label {
+    font-size: .85rem;
+    margin-bottom: .3rem;
+  }
+
+  div.edit-cancel, div.add-collab-btns {
+    flex-direction: column;
+    margin-top: .5rem;
+  }
+
+  div.edit-cancel button.cancel, button.cancel-add-collab {
+    margin: .5rem 0 0;
+    order: 1;
+  }
+}

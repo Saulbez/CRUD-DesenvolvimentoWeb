@@ -1,0 +1,68 @@
+.add-collaborator-btn {
+    width: 30px;
+    height: 30px;
+    background-image: url('../imagens/adicionar_icone.png'); /* Use o caminho completo */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.add-collaborator-btn:hover {
+    filter: brightness(1.2);
+}
+
+.add-collaborator-btn:focus {
+    outline: 2px solid #4a90e2;
+}
+
+.del-collaborator-btn:hover {
+    filter: brightness(1.2);
+}
+
+.del-collaborator-btn:focus {
+    outline: 2px solid #4a90e2;
+}
+
+.foto-collaborator-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.foto-collaborator-btn img, td img.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+div.task-owner-info {
+    padding: .3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.foto-collaborator-btn:hover {
+    filter: brightness(1.2);
+}
+
+.foto-collaborator-btn:focus {
+    outline: 2px solid #4a90e2;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.6rem; /* Ajuste o valor do gap para o espaçamento desejado entre os botões */
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
