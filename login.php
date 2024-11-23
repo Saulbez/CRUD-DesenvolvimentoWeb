@@ -46,75 +46,80 @@
                 <div class="signup">
                     <form method="post">
                         <label for="check" aria-hidden="true" class="signup-label">Cadastre-se</label>
-                        <label for="username-signup" class="label-inputs">Nome de usuário</label>
-                        <input value="<?php echo $username?>" type="text" name="username" id="username-signup" placeholder="Nome de usuário" required>
-                        <label for="email-signup" class="label-inputs">Email</label>
-                        <input value="<?php echo $email ?>" type="email" name="email" id="email-signup" placeholder="Email" required>
-                        <label for="password-signup" class="label-inputs">Senha</label>
-                        <input type="password" name="password" id="password-signup" placeholder="Senha" required>
+                        <div class="signup-login-forms">
+                            <label for="username-signup" class="label-inputs">Nome de usuário</label>
+                            <input value="<?php echo $username?>" type="text" name="username" id="username-signup" placeholder="Nome de usuário" required>
+                            <label for="email-signup" class="label-inputs">Email</label>
+                            <input value="<?php echo $email ?>" type="email" name="email" id="email-signup" placeholder="Email" required>
+                            <label for="password-signup" class="label-inputs">Senha</label>
+                            <input type="password" name="password" id="password-signup" placeholder="Senha" required>
 
-                        <?php
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'signup') {
-                                $signup = new Signup();
-                                
-                                try {
-                                    $result_signup = $signup->evaluate($_POST);
+
+                            <?php
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'signup') {
+                                    $signup = new Signup();
                                     
-                                    if ($result_signup === true) {
-                                        echo "<p style='color: darkgreen; margin: 4px 0;'>Cadastro realizado com sucesso!</p>";
-                                        echo "<script>setTimeout(function(){ window.location.href='login.php'; }, 2000);</script>";
-                                    } else {
+                                    try {
+                                        $result_signup = $signup->evaluate($_POST);
+                                        
+                                        if ($result_signup === true) {
+                                            echo "<p style='color: darkgreen; margin: 4px 0;'>Cadastro realizado com sucesso!</p>";
+                                            echo "<script>setTimeout(function(){ window.location.href='login.php'; }, 2000);</script>";
+                                        } else {
 
-                                        echo "<p style='margin: 4px 0;'>$result_signup</p>";
+                                            echo "<p style='margin: 4px 0;'>$result_signup</p>";
+                                        }
+                                    } catch (Exception $e) {
+
+                                        if (strpos($e->getMessage(), "Duplicate entry " . "'" . $_POST['email'] . "'" . " for key 'email'") !== false) {
+                                            echo "<p style='color: red; margin: 4px 0;'>Esse email já está cadastrado.</p>";
+                                        } else {
+
+                                            echo "<p style='color: red; margin: 4px 0;'>Erro: " . $e->getMessage() . "</p>";
+                                        }
                                     }
-                                } catch (Exception $e) {
 
-                                    if (strpos($e->getMessage(), "Duplicate entry " . "'" . $_POST['email'] . "'" . " for key 'email'") !== false) {
-                                        echo "<p style='color: red; margin: 4px 0;'>Esse email já está cadastrado.</p>";
-                                    } else {
-
-                                        echo "<p style='color: red; margin: 4px 0;'>Erro: " . $e->getMessage() . "</p>";
-                                    }
+                                    $username = $_POST['username'];
+                                    $email = $_POST['email'];
                                 }
+                            ?>
 
-                                $username = $_POST['username'];
-                                $email = $_POST['email'];
-                            }
-                        ?>
+                            <input type="hidden" name="action" value="signup">
 
-                        <input type="hidden" name="action" value="signup">
-
-                        <input name="signup" type="submit" value="Cadastre-se"></input>
+                            <input name="signup" type="submit" value="Cadastre-se"></input>
+                        </div>
                     </form>
                 </div>
 
                 <div class="login">
                     <form method="post">
                         <label for="check" aria-hidden="true">Entrar</label>
-                        <label for="email-login" class="label-inputs">Email</label>
-                        <input value="<?php echo $email ?>" type="email" name="email" id="email-login" placeholder="Email" required>
-                        <label for="password-login" class="label-inputs">Senha</label>
-                        <input value="<?php echo $password ?>" type="password" name="password" id="password-login" placeholder="Senha" required>
+                        <div class='signup-login-forms'>
+                            <label for="email-login" class="label-inputs">Email</label>
+                            <input value="<?php echo $email ?>" type="email" name="email" id="email-login" placeholder="Email" required>
+                            <label for="password-login" class="label-inputs">Senha</label>
+                            <input value="<?php echo $password ?>" type="password" name="password" id="password-login" placeholder="Senha" required>
                         
-                        <?php
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'login') {
-                                $login = new Login();
-                                $result_login = $login->evaluate($_POST);
-                                if ($result_login === true) {
-                                    header("Location: projects.php");
-                                    die;
-                                } else {
-                                    echo "<p>$result_login</p>";
+                            <?php
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['action'] == 'login') {
+                                    $login = new Login();
+                                    $result_login = $login->evaluate($_POST);
+                                    if ($result_login === true) {
+                                        header("Location: projects.php");
+                                        die;
+                                    } else {
+                                        echo "<p>$result_login</p>";
+                                    }
+
+                                    $email = $_POST['email'];
+                                    $password = $_POST['password'];
                                 }
+                            ?>
 
-                                $email = $_POST['email'];
-                                $password = $_POST['password'];
-                            }
-                        ?>
+                            <input type="hidden" name="action" value="login">
 
-                        <input type="hidden" name="action" value="login">
-
-                        <input name="login" type="submit" value="Entrar"></input>
+                            <input name="login" type="submit" value="Entrar"></input>
+                        </div>
                     </form>
                 </div>
             </div>
