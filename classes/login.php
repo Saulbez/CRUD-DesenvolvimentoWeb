@@ -4,6 +4,7 @@
 
         private $error = "";
 
+        //Validar usuário
         public function evaluate($data) {
 
             $email = addslashes($data['email']);
@@ -45,6 +46,7 @@
 
         }
 
+        //Checar se o usuário está logado
         public function check_login($id) {
 
             $query = "select session_id from users where session_id = ? limit 1";

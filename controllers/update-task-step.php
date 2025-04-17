@@ -9,6 +9,7 @@ error_log(print_r($data, true));
 $taskId = $data['task-id'];
 $newStepId = $data['newStepId'];
 
+// Passar a task para outra etapa
 if (isset($taskId) && isset($newStepId)) {
     $query = "UPDATE tasks SET step_id = ? WHERE task_id = ?";
     $types = "ii";
