@@ -23,12 +23,14 @@ const carousel = document.querySelector('.carousel-wrapper');
 const prevButton = document.querySelector('.prev');
 const nextButton = document.querySelector('.next');
 
+
+// Funcionalidade do carrossel
 if (prevButton && nextButton) {
     const items = document.querySelectorAll('.carousel-item');
     const gap = 16; // Gap between items
     const itemWidth = parseFloat(items[0].getBoundingClientRect().width.toFixed(3)); // Get the width of one item rounded to 3 decimals
     console.log("Item Width:", itemWidth);
-    
+
     // Calculate how many items fit in the visible area of the carousel
     const visibleItemsCount = Math.floor(carousel.clientWidth / itemWidth);
     console.log("Visible Items Count:", visibleItemsCount);

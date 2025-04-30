@@ -11,6 +11,7 @@ if(isset($_POST['add_step'])) {
 $error = '';
 $project_id = $_SESSION['project_id'];
 
+// Adicionar etapa no projeto
 if($etapa) {
     if (is_numeric($etapa)) {
         $error = "O nome da etapa não deve ser numérico.";
@@ -28,6 +29,8 @@ if($etapa) {
         header("Location: ../project-tasks.php?project_id=" . "$project_id");
         exit();
     }
+
+// Adicionar task em uma etapa do projeto
 } else if (isset($_POST['new-task'])) {
     $taskName = $_POST['task-name'];
     $taskDescription = $_POST['task-description'];
@@ -62,6 +65,8 @@ if($etapa) {
             exit();
         }
     }
+
+// Designar responsável por uma task
 } elseif (isset($_POST['add-responsible'])) {
     $responsible_id = $_POST['add-responsible'];
     $task_id = $_POST['task-id'];
@@ -80,6 +85,7 @@ if($etapa) {
     header("Location: ../project-tasks.php?project_id=" . "$project_id");
     exit();
 
+// Atualizar task
 } elseif (isset($_POST['update-task'])) {
     $task_id = $_POST['task-id'];
     $task_name = $_POST['task-name'];
@@ -100,6 +106,7 @@ if($etapa) {
     header("Location: ../project-tasks.php?project_id=" . "$project_id");
     exit();
 
+// Atualizar etapa
 } elseif (isset($_POST['update-step-btn'])) {
     $new_step_name = $_POST['update-step'];
     $step_id = $_POST['step-id'];

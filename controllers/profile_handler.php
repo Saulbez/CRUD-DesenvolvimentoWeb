@@ -8,6 +8,8 @@ include("../classes/login.php");
 $message = '';
 $showNewPasswordForm = false;
 
+
+// O usuário está logado?
 if(isset($_SESSION['collab_sessionid'])) {
 
     $id = $_SESSION['collab_sessionid'];
@@ -17,6 +19,7 @@ if(isset($_SESSION['collab_sessionid'])) {
     $DB = new Database();
     $DB->connect();
     
+    //O ID do usuário está correto?
     if($result) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['verify_password'])) {
@@ -61,6 +64,7 @@ if(isset($_SESSION['collab_sessionid'])) {
                         $message = 'Erro ao atualizar senha';
                     }
                 }
+            //Manipulação da imagem
             } elseif (isset($_FILES['profile-image'])) {
                 if($_FILES['profile-image']['error'] != 4) {
                     $profile_image = $_FILES['profile-image'];
